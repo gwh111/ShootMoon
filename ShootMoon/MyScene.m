@@ -8,6 +8,9 @@
 
 #import "MyScene.h"
 
+static const uint32_t fishCategory     =  0x1 << 0;
+static const uint32_t rockCategory        =  0x1 << 1;
+
 @implementation MyScene
 
 bool isStart=0;
@@ -18,6 +21,7 @@ float moveY=1;
 
 int hitTimes=0;
 SKSpriteNode *sprite;
+SKSpriteNode *restartButton;
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
@@ -27,13 +31,17 @@ SKSpriteNode *sprite;
         self.physicsWorld.contactDelegate=self;
         self.physicsWorld.gravity = CGVectorMake(0,0);
         
-        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"fish"];
         sprite.position = CGPointMake(CGRectGetMidX(self.frame),
-                                      CGRectGetMidY(self.frame)+100);;
-        sprite.size=CGSizeMake(80, 80);
-        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:0]]];
+                                      CGRectGetMidY(self.frame));;
+        sprite.size=CGSizeMake(100, 100);
+        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:3]]];
         [self addChild:sprite];
-        sprite.name=@"Spaceship";
+        sprite.name=@"fish";
+        sprite.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+        sprite.physicsBody.categoryBitMask=fishCategory;
+        sprite.physicsBody.contactTestBitMask=rockCategory;
+        sprite.physicsBody.dynamic=NO;
 
         SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
         myLabel.text = @"Tap To Start";
@@ -58,16 +66,30 @@ SKSpriteNode *sprite;
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         SKPhysicsBody *body=[self.physicsWorld bodyAtPoint:location];
+        NSLog(@"%@",body.node.name);
         if ([body.node.name isEqualToString:@"Start"]) {
             NSLog(@"Start");
             [self enumerateChildNodesWithName:@"Start" usingBlock:^(SKNode *node, BOOL *stop){
-                SKAction *startAction=[SKAction fadeOutWithDuration:2];
-                self.physicsWorld.gravity = CGVectorMake(0,-1);
+                self.physicsWorld.gravity = CGVectorMake(0,-3);
+                SKAction *startAction=[SKAction fadeOutWithDuration:1.7];
+                SKAction *scaleToSmall=[SKAction scaleXTo:0.8 y:0.8 duration:1.7];
+                [sprite runAction:[SKAction group:@[
+                                                   [self myAnimation:0],
+                                                   scaleToSmall]]];
                 [node runAction:startAction completion:^{
                     [node removeFromParent];
+//                    self.physicsWorld.gravity = CGVectorMake(0,0);
                     
                     [self directionInit];
                     isStart=1;
+                    
+                    restartButton = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+                    restartButton.position = CGPointMake(50, self.view.bounds.size.height-50);
+                    restartButton.size=CGSizeMake(50, 50);
+                    [self addChild:restartButton];
+                    restartButton.name=@"restartButton";
+                    restartButton.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:restartButton.size];
+                    restartButton.physicsBody.dynamic=NO;
                     
                     if (moveX<0) {
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
@@ -77,12 +99,22 @@ SKSpriteNode *sprite;
                 }];
             }];
         }
+        if ([body.node.name isEqualToString:@"restartButton"]){
+            [restartButton removeFromParent];
+            [self reStart];
+        }
+        
         if (isStart==1) {
             if ([touch locationInNode:self].y<100) {
+                self.physicsWorld.gravity = CGVectorMake(0,1);
                 SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
                 sprite.position = location;
                 sprite.size=CGSizeMake(50, 50);
                 [self addChild:sprite];
+                sprite.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+                sprite.physicsBody.categoryBitMask=rockCategory;
+                sprite.physicsBody.contactTestBitMask=fishCategory;
+                sprite.name=@"Spaceship";
             }
 
         }
@@ -104,14 +136,14 @@ SKSpriteNode *sprite;
 
 - (void)didSimulatePhysics{
 
-    [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
+    [self enumerateChildNodesWithName:@"fish" usingBlock:^(SKNode *node, BOOL *stop){
 
-        if (node.position.y<100|node.position.y>self.view.bounds.size.height) {
+        if (node.position.y<150|node.position.y>self.view.bounds.size.height-50) {
             sprite.position = CGPointMake(sprite.position.x,
-                                          sprite.position.y-moveY);;
+                                          sprite.position.y-2*moveY);;
             moveY=-moveY;
-        }else if (node.position.x<0|node.position.x>self.view.bounds.size.width){
-            sprite.position = CGPointMake(sprite.position.x-moveX,
+        }else if (node.position.x<50|node.position.x>self.view.bounds.size.width-50){
+            sprite.position = CGPointMake(sprite.position.x-2*moveX,
                                           sprite.position.y);;
             moveX=-moveX;
             NSLog(@"%f",moveX);
@@ -124,6 +156,47 @@ SKSpriteNode *sprite;
         }
         
     }];
+    
+    [self enumerateChildNodesWithName:@"fish" usingBlock:^(SKNode *node, BOOL *stop){
+        if (node.position.y>self.view.bounds.size.height) {
+            [node removeFromParent];
+        }
+    }];
+}
+- (void)didBeginContact:(SKPhysicsContact *)contact{
+    SKPhysicsBody *firstBody, *secondBody;
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    if (firstBody.categoryBitMask==fishCategory&secondBody.categoryBitMask==rockCategory) {
+        NSLog(@"hitFish");
+        [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+        }];
+        isStart=0;
+        SKAction *shakeLeftFirst=[SKAction moveToX:sprite.position.x-5 duration:0.01];
+        SKAction *shakeRight=[SKAction moveToX:sprite.position.x+10 duration:0.02];
+        SKAction *shakeLeft=[SKAction moveToX:sprite.position.x-10 duration:0.02];
+        SKAction *shakeRightAfter=[SKAction moveToX:sprite.position.x+5 duration:0.01];
+        SKAction *shakeAction=[SKAction sequence:@[
+                                                   shakeLeftFirst,
+                                                   [SKAction repeatAction:[SKAction sequence:@[
+                                                                                               shakeRight,
+                                                                                               shakeLeft]] count:5],
+                                                   shakeRightAfter]];
+        [sprite runAction:shakeAction completion:^{
+            isStart=1;
+            
+        }];
+        
+    }
 }
 
 - (void)directionInit{
@@ -209,17 +282,58 @@ SKSpriteNode *sprite;
     NSArray *moveRightArray=@[temp2_1,temp2_2,temp2_3,temp2_4,temp2_5,temp2_6,temp2_7,temp2_8,temp2_9];
     SKAction *moveRightAction=[SKAction animateWithTextures:moveRightArray timePerFrame:0.1];
     
+    SKTextureAtlas *atlas3 = [SKTextureAtlas atlasNamed:@"fishSleep"];
+    SKTexture *temp3_1 = [atlas3 textureNamed:@"fishSleep1.png"];
+    SKTexture *temp3_2 = [atlas3 textureNamed:@"fishSleep2.png"];
+    SKTexture *temp3_3 = [atlas3 textureNamed:@"fishSleep3.png"];
+    SKTexture *temp3_4 = [atlas3 textureNamed:@"fishSleep4.png"];
+    SKTexture *temp3_5 = [atlas3 textureNamed:@"fishSleep5.png"];
+    SKTexture *temp3_6 = [atlas3 textureNamed:@"fishSleep6.png"];
+    SKTexture *temp3_7 = [atlas3 textureNamed:@"fishSleep7.png"];
+    SKTexture *temp3_8 = [atlas3 textureNamed:@"fishSleep8.png"];
+    SKTexture *temp3_9 = [atlas3 textureNamed:@"fishSleep9.png"];
+    SKTexture *temp3_10 = [atlas3 textureNamed:@"fishSleep10.png"];
+    NSArray *sleepArray=@[temp3_1,temp3_2,temp3_3,temp3_4,temp3_5,temp3_6,temp3_7,temp3_8,temp3_9,temp3_10];
+    SKAction *sleepAction=[SKAction animateWithTextures:sleepArray timePerFrame:0.1];
+    
     if (animationNumber==0) {
         return eatAction;
     }else if (animationNumber==1){
         return moveLeftAction;
     }else if (animationNumber==2){
         return moveRightAction;
+    }else if (animationNumber==3){
+        return sleepAction;
     }
     else{
         NSLog(@"nil");
         return nil;
     }
+    
+}
+
+- (void)reStart{
+    isStart=0;
+    sprite.position = CGPointMake(CGRectGetMidX(self.frame),
+                                  CGRectGetMidY(self.frame));
+    SKAction *scaleToSmall=[SKAction scaleXTo:5/4 y:5/4 duration:0];
+    [sprite runAction:scaleToSmall];
+    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:3]]];
+    self.physicsWorld.gravity = CGVectorMake(0,0);
+    
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    myLabel.text = @"Tap To Start";
+    myLabel.fontSize = 20;
+    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+                                   CGRectGetMidY(self.frame)-100);
+    [self addChild:myLabel];
+    myLabel.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(200, 50)];
+    myLabel.name=@"Start";
+    SKAction *fadeOutAction=[SKAction fadeAlphaTo:0.1 duration:2];
+    SKAction *fadeInAction=[SKAction fadeAlphaTo:1 duration:2];
+    [myLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                          fadeOutAction,
+                                                                          fadeInAction]]]];
     
 }
 

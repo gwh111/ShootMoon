@@ -24,6 +24,9 @@
 		18F8F7F519C7E3CC007D26A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7D019C7E3CC007D26A3 /* UIKit.framework */; };
 		18F8F7FD19C7E3CC007D26A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18F8F7FB19C7E3CC007D26A3 /* InfoPlist.strings */; };
 		18F8F7FF19C7E3CC007D26A3 /* ShootMoonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8F7FE19C7E3CC007D26A3 /* ShootMoonTests.m */; };
+		18F8F80919C8191D007D26A3 /* fishEat.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18F8F80819C8191D007D26A3 /* fishEat.atlas */; };
+		18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18F8F80A19C81EDA007D26A3 /* fishMoveLeft.atlas */; };
+		18F8F80D19C81EDA007D26A3 /* fishMoveRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18F8F80B19C81EDA007D26A3 /* fishMoveRight.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,9 @@
 		18F8F7FA19C7E3CC007D26A3 /* ShootMoonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShootMoonTests-Info.plist"; sourceTree = "<group>"; };
 		18F8F7FC19C7E3CC007D26A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18F8F7FE19C7E3CC007D26A3 /* ShootMoonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShootMoonTests.m; sourceTree = "<group>"; };
+		18F8F80819C8191D007D26A3 /* fishEat.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishEat.atlas; sourceTree = "<group>"; };
+		18F8F80A19C81EDA007D26A3 /* fishMoveLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishMoveLeft.atlas; sourceTree = "<group>"; };
+		18F8F80B19C81EDA007D26A3 /* fishMoveRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishMoveRight.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,9 @@
 				18F8F7E619C7E3CC007D26A3 /* MyScene.h */,
 				18F8F7E719C7E3CC007D26A3 /* MyScene.m */,
 				18F8F7E919C7E3CC007D26A3 /* Spaceship.png */,
+				18F8F80A19C81EDA007D26A3 /* fishMoveLeft.atlas */,
+				18F8F80B19C81EDA007D26A3 /* fishMoveRight.atlas */,
+				18F8F80819C8191D007D26A3 /* fishEat.atlas */,
 				18F8F7EB19C7E3CC007D26A3 /* Images.xcassets */,
 				18F8F7D519C7E3CC007D26A3 /* Supporting Files */,
 			);
@@ -242,8 +251,11 @@
 			files = (
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
+				18F8F80D19C81EDA007D26A3 /* fishMoveRight.atlas in Resources */,
 				18F8F7EA19C7E3CC007D26A3 /* Spaceship.png in Resources */,
+				18F8F80919C8191D007D26A3 /* fishEat.atlas in Resources */,
 				18F8F7E219C7E3CC007D26A3 /* Main.storyboard in Resources */,
+				18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

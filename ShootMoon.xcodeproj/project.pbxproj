@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850219C93774002FCA09 /* hideTongeLeft.atlas */; };
+		184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850319C93774002FCA09 /* hideTongeRight.atlas */; };
+		184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850619C94EFC002FCA09 /* cryLeft.atlas */; };
+		184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850719C94EFC002FCA09 /* cryRight.atlas */; };
+		184D850B19C953F0002FCA09 /* reload-04.png in Resources */ = {isa = PBXBuildFile; fileRef = 184D850A19C953F0002FCA09 /* reload-04.png */; };
+		184D850D19C95C21002FCA09 /* backSprite.png in Resources */ = {isa = PBXBuildFile; fileRef = 184D850C19C95C21002FCA09 /* backSprite.png */; };
+		184D851019C9794C002FCA09 /* yunLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850E19C9794C002FCA09 /* yunLeft.atlas */; };
+		184D851119C9794C002FCA09 /* yunRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850F19C9794C002FCA09 /* yunRight.atlas */; };
+		18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4819CAB2110096772B /* questionLeft.atlas */; };
+		18753F4B19CAB2110096772B /* questionRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4919CAB2110096772B /* questionRight.atlas */; };
 		18F8F7CD19C7E3CC007D26A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7CC19C7E3CC007D26A3 /* Foundation.framework */; };
 		18F8F7CF19C7E3CC007D26A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7CE19C7E3CC007D26A3 /* CoreGraphics.framework */; };
 		18F8F7D119C7E3CC007D26A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7D019C7E3CC007D26A3 /* UIKit.framework */; };
@@ -41,6 +51,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		184D850219C93774002FCA09 /* hideTongeLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeLeft.atlas; sourceTree = "<group>"; };
+		184D850319C93774002FCA09 /* hideTongeRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeRight.atlas; sourceTree = "<group>"; };
+		184D850619C94EFC002FCA09 /* cryLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cryLeft.atlas; sourceTree = "<group>"; };
+		184D850719C94EFC002FCA09 /* cryRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cryRight.atlas; sourceTree = "<group>"; };
+		184D850A19C953F0002FCA09 /* reload-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload-04.png"; sourceTree = "<group>"; };
+		184D850C19C95C21002FCA09 /* backSprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backSprite.png; sourceTree = "<group>"; };
+		184D850E19C9794C002FCA09 /* yunLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = yunLeft.atlas; sourceTree = "<group>"; };
+		184D850F19C9794C002FCA09 /* yunRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = yunRight.atlas; sourceTree = "<group>"; };
+		18753F4819CAB2110096772B /* questionLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionLeft.atlas; sourceTree = "<group>"; };
+		18753F4919CAB2110096772B /* questionRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionRight.atlas; sourceTree = "<group>"; };
 		18F8F7C919C7E3CC007D26A3 /* ShootMoon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShootMoon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F8F7CC19C7E3CC007D26A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18F8F7CE19C7E3CC007D26A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -137,6 +157,16 @@
 				18F8F7E619C7E3CC007D26A3 /* MyScene.h */,
 				18F8F7E719C7E3CC007D26A3 /* MyScene.m */,
 				18F8F7E919C7E3CC007D26A3 /* Spaceship.png */,
+				184D850A19C953F0002FCA09 /* reload-04.png */,
+				184D850C19C95C21002FCA09 /* backSprite.png */,
+				18753F4819CAB2110096772B /* questionLeft.atlas */,
+				18753F4919CAB2110096772B /* questionRight.atlas */,
+				184D850E19C9794C002FCA09 /* yunLeft.atlas */,
+				184D850F19C9794C002FCA09 /* yunRight.atlas */,
+				184D850619C94EFC002FCA09 /* cryLeft.atlas */,
+				184D850719C94EFC002FCA09 /* cryRight.atlas */,
+				184D850219C93774002FCA09 /* hideTongeLeft.atlas */,
+				184D850319C93774002FCA09 /* hideTongeRight.atlas */,
 				18F8F80E19C82BE2007D26A3 /* fishSleep.atlas */,
 				18F8F80A19C81EDA007D26A3 /* fishMoveLeft.atlas */,
 				18F8F80B19C81EDA007D26A3 /* fishMoveRight.atlas */,
@@ -253,13 +283,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
+				184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
+				184D850D19C95C21002FCA09 /* backSprite.png in Resources */,
 				18F8F80D19C81EDA007D26A3 /* fishMoveRight.atlas in Resources */,
+				184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */,
+				184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */,
+				184D850B19C953F0002FCA09 /* reload-04.png in Resources */,
 				18F8F7EA19C7E3CC007D26A3 /* Spaceship.png in Resources */,
 				18F8F80919C8191D007D26A3 /* fishEat.atlas in Resources */,
+				184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */,
+				18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */,
+				184D851119C9794C002FCA09 /* yunRight.atlas in Resources */,
 				18F8F80F19C82BE2007D26A3 /* fishSleep.atlas in Resources */,
 				18F8F7E219C7E3CC007D26A3 /* Main.storyboard in Resources */,
 				18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */,
+				18753F4B19CAB2110096772B /* questionRight.atlas in Resources */,
+				184D851019C9794C002FCA09 /* yunLeft.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +528,7 @@
 				18F8F80419C7E3CC007D26A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		18F8F80519C7E3CC007D26A3 /* Build configuration list for PBXNativeTarget "ShootMoonTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +537,7 @@
 				18F8F80719C7E3CC007D26A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

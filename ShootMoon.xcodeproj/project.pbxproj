@@ -17,6 +17,15 @@
 		184D851119C9794C002FCA09 /* yunRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850F19C9794C002FCA09 /* yunRight.atlas */; };
 		18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4819CAB2110096772B /* questionLeft.atlas */; };
 		18753F4B19CAB2110096772B /* questionRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4919CAB2110096772B /* questionRight.atlas */; };
+		18DD953419CE84BD00A66101 /* desk_480.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18DD952F19CE84BD00A66101 /* desk_480.jpg */; };
+		18DD953519CE84BD00A66101 /* desk_568.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953019CE84BD00A66101 /* desk_568.jpg */; };
+		18DD953619CE84BD00A66101 /* desk_375667.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953119CE84BD00A66101 /* desk_375667.jpg */; };
+		18DD953719CE84BD00A66101 /* desk_414736.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953219CE84BD00A66101 /* desk_414736.jpg */; };
+		18DD953819CE84BD00A66101 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953319CE84BD00A66101 /* line.png */; };
+		18DD953D19CE9BBA00A66101 /* bubble1.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953919CE9BBA00A66101 /* bubble1.png */; };
+		18DD953E19CE9BBA00A66101 /* bubble2.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953A19CE9BBA00A66101 /* bubble2.png */; };
+		18DD953F19CE9BBA00A66101 /* bubble3.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953B19CE9BBA00A66101 /* bubble3.png */; };
+		18DD954019CE9BBA00A66101 /* bubble4.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DD953C19CE9BBA00A66101 /* bubble4.png */; };
 		18F8F7CD19C7E3CC007D26A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7CC19C7E3CC007D26A3 /* Foundation.framework */; };
 		18F8F7CF19C7E3CC007D26A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7CE19C7E3CC007D26A3 /* CoreGraphics.framework */; };
 		18F8F7D119C7E3CC007D26A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F8F7D019C7E3CC007D26A3 /* UIKit.framework */; };
@@ -61,6 +70,15 @@
 		184D850F19C9794C002FCA09 /* yunRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = yunRight.atlas; sourceTree = "<group>"; };
 		18753F4819CAB2110096772B /* questionLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionLeft.atlas; sourceTree = "<group>"; };
 		18753F4919CAB2110096772B /* questionRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionRight.atlas; sourceTree = "<group>"; };
+		18DD952F19CE84BD00A66101 /* desk_480.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = desk_480.jpg; sourceTree = "<group>"; };
+		18DD953019CE84BD00A66101 /* desk_568.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = desk_568.jpg; sourceTree = "<group>"; };
+		18DD953119CE84BD00A66101 /* desk_375667.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = desk_375667.jpg; sourceTree = "<group>"; };
+		18DD953219CE84BD00A66101 /* desk_414736.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = desk_414736.jpg; sourceTree = "<group>"; };
+		18DD953319CE84BD00A66101 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
+		18DD953919CE9BBA00A66101 /* bubble1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble1.png; sourceTree = "<group>"; };
+		18DD953A19CE9BBA00A66101 /* bubble2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble2.png; sourceTree = "<group>"; };
+		18DD953B19CE9BBA00A66101 /* bubble3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble3.png; sourceTree = "<group>"; };
+		18DD953C19CE9BBA00A66101 /* bubble4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble4.png; sourceTree = "<group>"; };
 		18F8F7C919C7E3CC007D26A3 /* ShootMoon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShootMoon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F8F7CC19C7E3CC007D26A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18F8F7CE19C7E3CC007D26A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -156,9 +174,18 @@
 				18F8F7E419C7E3CC007D26A3 /* ViewController.m */,
 				18F8F7E619C7E3CC007D26A3 /* MyScene.h */,
 				18F8F7E719C7E3CC007D26A3 /* MyScene.m */,
+				18DD953919CE9BBA00A66101 /* bubble1.png */,
+				18DD953A19CE9BBA00A66101 /* bubble2.png */,
+				18DD953B19CE9BBA00A66101 /* bubble3.png */,
+				18DD953C19CE9BBA00A66101 /* bubble4.png */,
 				18F8F7E919C7E3CC007D26A3 /* Spaceship.png */,
 				184D850A19C953F0002FCA09 /* reload-04.png */,
 				184D850C19C95C21002FCA09 /* backSprite.png */,
+				18DD952F19CE84BD00A66101 /* desk_480.jpg */,
+				18DD953019CE84BD00A66101 /* desk_568.jpg */,
+				18DD953119CE84BD00A66101 /* desk_375667.jpg */,
+				18DD953219CE84BD00A66101 /* desk_414736.jpg */,
+				18DD953319CE84BD00A66101 /* line.png */,
 				18753F4819CAB2110096772B /* questionLeft.atlas */,
 				18753F4919CAB2110096772B /* questionRight.atlas */,
 				184D850E19C9794C002FCA09 /* yunLeft.atlas */,
@@ -285,21 +312,30 @@
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
 				184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
+				18DD953819CE84BD00A66101 /* line.png in Resources */,
 				184D850D19C95C21002FCA09 /* backSprite.png in Resources */,
+				18DD953519CE84BD00A66101 /* desk_568.jpg in Resources */,
+				18DD953719CE84BD00A66101 /* desk_414736.jpg in Resources */,
 				18F8F80D19C81EDA007D26A3 /* fishMoveRight.atlas in Resources */,
 				184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */,
+				18DD953619CE84BD00A66101 /* desk_375667.jpg in Resources */,
+				18DD953419CE84BD00A66101 /* desk_480.jpg in Resources */,
+				18DD954019CE9BBA00A66101 /* bubble4.png in Resources */,
+				18DD953D19CE9BBA00A66101 /* bubble1.png in Resources */,
 				184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */,
 				184D850B19C953F0002FCA09 /* reload-04.png in Resources */,
 				18F8F7EA19C7E3CC007D26A3 /* Spaceship.png in Resources */,
 				18F8F80919C8191D007D26A3 /* fishEat.atlas in Resources */,
 				184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */,
 				18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */,
+				18DD953E19CE9BBA00A66101 /* bubble2.png in Resources */,
 				184D851119C9794C002FCA09 /* yunRight.atlas in Resources */,
 				18F8F80F19C82BE2007D26A3 /* fishSleep.atlas in Resources */,
 				18F8F7E219C7E3CC007D26A3 /* Main.storyboard in Resources */,
 				18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */,
 				18753F4B19CAB2110096772B /* questionRight.atlas in Resources */,
 				184D851019C9794C002FCA09 /* yunLeft.atlas in Resources */,
+				18DD953F19CE9BBA00A66101 /* bubble3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

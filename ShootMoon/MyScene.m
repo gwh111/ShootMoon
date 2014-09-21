@@ -35,9 +35,27 @@ SKLabelNode *bestNode;
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.backgroundColor = [SKColor clearColor];
         self.physicsWorld.contactDelegate=self;
         self.physicsWorld.gravity = CGVectorMake(0,0);
+        SKSpriteNode *backgroundNode=[SKSpriteNode spriteNodeWithImageNamed:@"desk_480.jpg"];
+        backgroundNode.position = CGPointMake(CGRectGetMidX(self.frame),
+                                       CGRectGetMidY(self.frame));
+        NSLog(@"%f",self.scene.size.height);
+        if (self.scene.size.height==480) {
+            backgroundNode.texture=[SKTexture textureWithImageNamed:@"desk_480.jpg"];
+            backgroundNode.size=CGSizeMake(320, 480);
+        }else if (self.scene.size.height==568){
+            backgroundNode.texture=[SKTexture textureWithImageNamed:@"desk_568.jpg"];
+            backgroundNode.size=CGSizeMake(320, 568);
+        }else if (self.scene.size.height==667){
+            backgroundNode.texture=[SKTexture textureWithImageNamed:@"desk_375667.jpg"];
+            backgroundNode.size=CGSizeMake(375, 667);
+        }else if (self.scene.size.height==736){
+            backgroundNode.texture=[SKTexture textureWithImageNamed:@"desk_414736.jpg"];
+            backgroundNode.size=CGSizeMake(414, 736);
+        }
+        [self addChild:backgroundNode];
         
         SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
         myLabel.text = @"Tap To Start";
@@ -209,11 +227,11 @@ SKLabelNode *bestNode;
 }
 
 - (void)didSimulatePhysics{
-NSLog(@"movex=%fmovey=%f",moveX,moveY);
+//NSLog(@"movex=%fmovey=%f",moveX,moveY);
     
     [self enumerateChildNodesWithName:@"fish" usingBlock:^(SKNode *node, BOOL *stop){
 
-        NSLog(@"node%f",node.position.y);
+//        NSLog(@"node%f",node.position.y);
         if (node.position.y<150|node.position.y>self.view.bounds.size.height-40) {
             moveY=-moveY;
             

@@ -19,6 +19,8 @@
 {
     [super viewDidLoad];
 
+    self.view.backgroundColor=[UIColor yellowColor];
+    
     // Configure the view.
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;
@@ -27,6 +29,7 @@
     // Create and configure the scene.
     SKScene * scene = [MyScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    
     
     // Present the scene.
     [skView presentScene:scene];

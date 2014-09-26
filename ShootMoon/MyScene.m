@@ -11,6 +11,8 @@
 static const uint32_t fishCategory     =  0x1 << 0;
 static const uint32_t rockCategory        =  0x1 << 1;
 static const uint32_t redFishCategory        =  0x1 << 2;
+static const uint32_t redFishCategory2        =  0x1 << 3;
+static const uint32_t redFishCategory3        =  0x1 << 4;
 
 @implementation MyScene
 
@@ -23,6 +25,12 @@ float moveY=1;
 
 float moveX_fish=-1;
 float moveY_fish=1;
+
+float moveX_fish2=-1;
+float moveY_fish2=1;
+
+float moveX_fish3=-1;
+float moveY_fish3=1;
 
 int hitTimes=0;
 SKSpriteNode *sprite;
@@ -39,6 +47,7 @@ bool canShoot=1;
 float fishSpeed1=2,fishSpeed2=3;
 
 SKSpriteNode *lineSprite;
+SKLabelNode *noticeNode;
 
 int currentScore=0, currentMaxScore=0, bestScore;
 
@@ -83,7 +92,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
         
         sprite = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(1, 1)];
         sprite.position = CGPointMake(CGRectGetMidX(self.frame),
-                                      CGRectGetMidY(self.frame));;
+                                      CGRectGetMidY(self.frame));
         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:3]]];
         SKAction *zoomOut=[SKAction scaleTo:100 duration:1];
         [sprite runAction:zoomOut completion:^{
@@ -116,6 +125,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                                      [SKAction waitForDuration:0.5]]];
         [self runAction:[SKAction repeatActionForever:makeRocks]];
     }
+    [self gameoverPushView];
     return self;
 }
 
@@ -153,6 +163,20 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                                                                        [SKAction group:@[alpha1,scale1]],
                                                                                        [SKAction group:@[alpha2,scale2]]]]]];
             }];
+            
+            noticeNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+            noticeNode.text=@"Tap To Shoot";
+            noticeNode.fontSize=25;
+            noticeNode.alpha=0.5;
+            noticeNode.fontColor=[SKColor whiteColor];
+            noticeNode.position=CGPointMake(CGRectGetMidX(self.frame),100);
+            [self addChild:noticeNode];
+            [noticeNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                                    [SKAction waitForDuration:2],
+                                                                                    [SKAction fadeAlphaTo:0 duration:2],
+                                                                                    [SKAction waitForDuration:3],
+                                                                                    [SKAction fadeAlphaTo:0.5 duration:2],
+                                                                                    [SKAction waitForDuration:0.5]]]]];
             
             [self enumerateChildNodesWithName:@"Start" usingBlock:^(SKNode *node, BOOL *stop){
                
@@ -194,21 +218,22 @@ int currentScore=0, currentMaxScore=0, bestScore;
         if (isStart==1&moveStop==0) {
             if ([touch locationInNode:self].y<120) {
                 if (canShoot==1) {
-                    SKSpriteNode *sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+                    SKSpriteNode *sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"rocket1"];
                     sprite1.position = location;
                     sprite1.size=CGSizeMake(50, 50);
                     [self addChild:sprite1];
                     sprite1.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:sprite1.size];
                     sprite1.physicsBody.categoryBitMask=rockCategory;
-                    sprite1.physicsBody.contactTestBitMask=fishCategory|redFishCategory;
-                    sprite1.physicsBody.collisionBitMask=fishCategory|redFishCategory;
+                    sprite1.physicsBody.contactTestBitMask=fishCategory|redFishCategory|redFishCategory2|redFishCategory3;
+                    sprite1.physicsBody.collisionBitMask=fishCategory|redFishCategory|redFishCategory2|redFishCategory3;
                     sprite1.name=@"Spaceship";
                     sprite1.physicsBody.affectedByGravity=NO;
                     sprite1.physicsBody.density=100;
                     canShoot=0;
+                    [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:16]]];
                     
                     SKEmitterNode *myEmitterNode = [NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle2" ofType:@"sks"]];
-                    myEmitterNode.position = CGPointMake(0, -30);
+                    myEmitterNode.position = CGPointMake(0, -25);
                     myEmitterNode.name=@"Spaceship_Fire";
                     [sprite1 addChild:myEmitterNode];
                     
@@ -323,7 +348,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
             }
         }];
 
-        [self enumerateChildNodesWithName:@"redFish1" usingBlock:^(SKNode *node, BOOL *stop){
+        [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
             
             if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
                 moveY_fish=-moveY_fish;
@@ -341,6 +366,48 @@ int currentScore=0, currentMaxScore=0, bestScore;
             
             node.position = CGPointMake(node.position.x+moveX_fish,
                                         node.position.y+moveY_fish);
+            
+        }];
+        
+        [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
+            
+            if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
+                moveY_fish2=-moveY_fish2;
+                
+            }else if (node.position.x<30|node.position.x>self.view.bounds.size.width-30){
+                moveX_fish2=-moveX_fish2;
+                
+                if (moveX_fish2<0) {
+                    [node runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
+                }else{
+                    [node runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
+                }
+                
+            }
+            
+            node.position = CGPointMake(node.position.x+moveX_fish2,
+                                        node.position.y+moveY_fish2);
+            
+        }];
+        
+        [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+            
+            if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
+                moveY_fish3=-moveY_fish3;
+                
+            }else if (node.position.x<30|node.position.x>self.view.bounds.size.width-30){
+                moveX_fish3=-moveX_fish3;
+                
+                if (moveX_fish3<0) {
+                    [node runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
+                }else{
+                    [node runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
+                }
+                
+            }
+            
+            node.position = CGPointMake(node.position.x+moveX_fish3,
+                                        node.position.y+moveY_fish3);
             
         }];
         
@@ -466,9 +533,13 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                                 [self myAnimation:8],
                                                 shakeAction]] completion:^{
                 if (hitTimes==1) {
-                    NSLog(@"5");
+                    [self addRedFish:1];
                     
-                    [self addRedFish];
+                }else if (hitTimes==2){
+                    [self addRedFish:2];
+                    
+                }else if (hitTimes==3){
+                    [self addRedFish:3];
                     
                 }else{
                     isStart=1;
@@ -484,9 +555,13 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                                 [self myAnimation:9],
                                                 shakeAction]] completion:^{
                 if (hitTimes==1) {
-                    NSLog(@"5");
+                    [self addRedFish:1];
                     
-                    [self addRedFish];
+                }else if (hitTimes==2){
+                    [self addRedFish:2];
+                    
+                }else if (hitTimes==3){
+                    [self addRedFish:3];
                     
                 }else{
                     isStart=1;
@@ -502,10 +577,25 @@ int currentScore=0, currentMaxScore=0, bestScore;
         
     }
     
-    if (firstBody.categoryBitMask==redFishCategory&secondBody.categoryBitMask==rockCategory) {
+    if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory) {
         NSLog(@"hitRedFish");
-        
-        
+        [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
+            [node removeFromParent];
+        }];
+    }
+    
+    if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory2) {
+        NSLog(@"hitRedFish2");
+        [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
+            [node removeFromParent];
+        }];
+    }
+    
+    if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory3) {
+        NSLog(@"hitRedFish3");
+        [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+            [node removeFromParent];
+        }];
     }
 }
 
@@ -788,6 +878,14 @@ int currentScore=0, currentMaxScore=0, bestScore;
     }
     SKAction *redFishRightAction=[SKAction animateWithTextures:redFishRightArray timePerFrame:0.1];
     
+    SKTextureAtlas *atlas16=[SKTextureAtlas atlasNamed:@"rocket"];
+    NSArray *rocketArray=[[NSArray alloc]init];
+    for (int i=1; i<3; i++) {
+        SKTexture *temp=[atlas16 textureNamed:[NSString stringWithFormat:@"rocket%d.png",i]];
+        rocketArray=[rocketArray arrayByAddingObject:temp];
+    }
+    SKAction *rocketAction=[SKAction animateWithTextures:rocketArray timePerFrame:0.1];
+    
     if (animationNumber==0) {
         return eatAction;
     }else if (animationNumber==1){
@@ -820,6 +918,8 @@ int currentScore=0, currentMaxScore=0, bestScore;
         return redFishLeftAction;
     }else if (animationNumber==15){
         return redFishRightAction;
+    }else if (animationNumber==16){
+        return rocketAction;
     }
     else{
         NSLog(@"nil");
@@ -835,6 +935,10 @@ int currentScore=0, currentMaxScore=0, bestScore;
     hitTimes=0;
     [sprite removeFromParent];
     [restartButton removeFromSuperview];
+    [self enumerateChildNodesWithName:@"Notice" usingBlock:^(SKNode *node, BOOL *stop){
+        [node removeFromParent];
+    }];
+    
     sprite = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(1, 1)];
     sprite.position = CGPointMake(CGRectGetMidX(self.frame),
                                   CGRectGetMidY(self.frame));
@@ -869,6 +973,16 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                             moveUpAction,
                                             scaleToZero]] completion:^{
         [lineSprite removeFromParent];
+    }];
+    
+    [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
+        [node removeFromParent];
+    }];
+    [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
+        [node removeFromParent];
+    }];
+    [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+        [node removeFromParent];
     }];
 }
 
@@ -912,24 +1026,49 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     
 }
 
-- (void)addRedFish{
+- (void)addRedFish:(int)theNumber{
+    noticeNode.text=@"Do Not Hit Bomb Fish";
+    
     SKEmitterNode *myEmitterNode = [NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle3" ofType:@"sks"]];
     myEmitterNode.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:myEmitterNode];
     
     SKSpriteNode *sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"redFishLeft1.png"];
     sprite1.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));;
-    sprite1.size=CGSizeMake(50, 50);
+    sprite1.size=CGSizeMake(5, 5);
     [self addChild:sprite1];
-    sprite1.physicsBody=[SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(50, 50)];
-    sprite1.physicsBody.categoryBitMask=redFishCategory;
+    sprite1.physicsBody=[SKPhysicsBody bodyWithCircleOfRadius:0.3];
+    
     sprite1.physicsBody.contactTestBitMask=rockCategory;
     sprite1.physicsBody.collisionBitMask=rockCategory;
-    sprite1.name=@"redFish1";
+    if (theNumber==1) {
+        sprite1.name=@"RedFish1";
+        sprite1.physicsBody.categoryBitMask=redFishCategory;
+    }else if (theNumber==2){
+        sprite1.name=@"RedFish2";
+        sprite1.physicsBody.categoryBitMask=redFishCategory2;
+    }else{
+        sprite1.name=@"RedFish3";
+        sprite1.physicsBody.categoryBitMask=redFishCategory3;
+    }
+    
     sprite1.physicsBody.affectedByGravity=NO;
-    SKAction *makeLarge=[SKAction scaleTo:1 duration:1];
-    SKAction *addRed=[SKAction colorizeWithColor:[SKColor yellowColor] colorBlendFactor:1 duration:0.2];
-
+    SKAction *makeLarge=[SKAction scaleTo:10 duration:1];
+    
+    int x=arc4random_uniform(3);
+    int pluse;
+    SKAction *addRed;
+    if (x==0) {
+        addRed=[SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:1 duration:0.2];
+        pluse=2;
+    }else if (x==1){
+        addRed=[SKAction colorizeWithColor:[SKColor purpleColor] colorBlendFactor:1 duration:0.2];
+        pluse=1;
+    }else{
+        addRed=[SKAction colorizeWithColor:[SKColor yellowColor] colorBlendFactor:1 duration:0.2];
+        pluse=0;
+    }
+    
     if (moveX<0) {
         [sprite runAction:[self myAnimation:12] completion:^{
             SKAction *fadeOut=[SKAction fadeAlphaTo:0 duration:1];
@@ -957,38 +1096,129 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     }
     
     int t=arc4random_uniform(4);
-    if (t==0) {
-        moveX_fish=1;
-        moveY_fish=1;
-    }else if (t==1){
-        moveX_fish=-1;
-        moveY_fish=1;
-    }else if (t==2){
-        moveX_fish=1;
-        moveY_fish=-1;
-    }else{
-        moveX_fish=-1;
-        moveY_fish=-1;
+    if (theNumber==1) {
+        if (t==0) {
+            moveX_fish=1+pluse;
+            moveY_fish=1+pluse;
+        }else if (t==1){
+            moveX_fish=-1-pluse;
+            moveY_fish=1+pluse;
+        }else if (t==2){
+            moveX_fish=1+pluse;
+            moveY_fish=-1-pluse;
+        }else{
+            moveX_fish=-1-pluse;
+            moveY_fish=-1-pluse;
+        }
+        if (moveX_fish<0) {
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:14] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
+            }];
+        }else{
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:15] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
+            }];
+        }
+
+    }else if (theNumber==2){
+        if (t==0) {
+            moveX_fish2=1+pluse;
+            moveY_fish2=1+pluse;
+        }else if (t==1){
+            moveX_fish2=-1-pluse;
+            moveY_fish2=1+pluse;
+        }else if (t==2){
+            moveX_fish2=1+pluse;
+            moveY_fish2=-1-pluse;
+        }else{
+            moveX_fish2=-1-pluse;
+            moveY_fish2=-1-pluse;
+        }
+        if (moveX_fish2<0) {
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:14] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
+            }];
+        }else{
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:15] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
+            }];
+        }
+
+    }else if (theNumber==3){
+        if (t==0) {
+            moveX_fish3=1+pluse;
+            moveY_fish3=1+pluse;
+        }else if (t==1){
+            moveX_fish3=-1-pluse;
+            moveY_fish3=1+pluse;
+        }else if (t==2){
+            moveX_fish3=1+pluse;
+            moveY_fish3=-1-pluse;
+        }else{
+            moveX_fish3=-1-pluse;
+            moveY_fish3=-1-pluse;
+        }
+        if (moveX_fish3<0) {
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:14] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
+            }];
+        }else{
+            
+            [sprite1 runAction:[SKAction group:@[
+                                                 [SKAction repeatAction:[self myAnimation:15] count:3],
+                                                 makeLarge,
+                                                 addRed]]completion:^{
+                [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
+            }];
+        }
+
     }
     
-    if (moveX_fish<0) {
-        
-        [sprite1 runAction:[SKAction group:@[
-                                             [self myAnimation:14],
-                                             makeLarge,
-                                             addRed]]completion:^{
-            [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
-        }];
-    }else{
-        
-        [sprite1 runAction:[SKAction group:@[
-                                             [self myAnimation:15],
-                                             makeLarge,
-                                             addRed]]completion:^{
-            [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
-        }];
-    }
     
+    
+}
+
+- (void)gameoverPushView{
+    canShoot=0;
+    SKSpriteNode *gameoverBackViewNode=[SKSpriteNode spriteNodeWithImageNamed:@"gameover.png"];
+    gameoverBackViewNode.position = CGPointMake(CGRectGetMidX(self.frame),
+                                                CGRectGetMidY(self.frame));
+    gameoverBackViewNode.size=CGSizeMake(250, 400);
+    [self addChild:gameoverBackViewNode];
+    
+    SKLabelNode *scoreLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+    scoreLabel.text=@"Your Score:";
+    scoreLabel.fontSize=15;
+    scoreLabel.fontColor=[SKColor purpleColor];
+    scoreLabel.position=CGPointMake(0, 50);
+    [gameoverBackViewNode addChild:scoreLabel];
+    
+    SKLabelNode *scoreNumLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+    scoreNumLabel.text=@"50";
+    scoreNumLabel.fontSize=35;
+    scoreNumLabel.fontColor=[SKColor orangeColor];
+    scoreNumLabel.position=CGPointMake(0, 0);
+    [gameoverBackViewNode addChild:scoreNumLabel];
 }
 
 @end

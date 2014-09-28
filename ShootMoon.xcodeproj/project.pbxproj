@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1812D0EB19D547980073705B /* rocket.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1812D0EA19D547980073705B /* rocket.atlas */; };
-		1812D0ED19D54AC00073705B /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1812D0EC19D54AC00073705B /* gameover.png */; };
+		1820F19A19D7937B00CA63B0 /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1820F19919D7937B00CA63B0 /* gameover.png */; };
+		1820F19C19D793CA00CA63B0 /* rocket.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F19B19D793CA00CA63B0 /* rocket.atlas */; };
 		184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850219C93774002FCA09 /* hideTongeLeft.atlas */; };
 		184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850319C93774002FCA09 /* hideTongeRight.atlas */; };
 		184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850619C94EFC002FCA09 /* cryLeft.atlas */; };
@@ -71,8 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1812D0EA19D547980073705B /* rocket.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = rocket.atlas; sourceTree = "<group>"; };
-		1812D0EC19D54AC00073705B /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
+		1820F19919D7937B00CA63B0 /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
+		1820F19B19D793CA00CA63B0 /* rocket.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = rocket.atlas; sourceTree = "<group>"; };
 		184D850219C93774002FCA09 /* hideTongeLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeLeft.atlas; sourceTree = "<group>"; };
 		184D850319C93774002FCA09 /* hideTongeRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeRight.atlas; sourceTree = "<group>"; };
 		184D850619C94EFC002FCA09 /* cryLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cryLeft.atlas; sourceTree = "<group>"; };
@@ -196,7 +196,6 @@
 				18F8F7E419C7E3CC007D26A3 /* ViewController.m */,
 				18F8F7E619C7E3CC007D26A3 /* MyScene.h */,
 				18F8F7E719C7E3CC007D26A3 /* MyScene.m */,
-				1812D0EC19D54AC00073705B /* gameover.png */,
 				188AAE3719D140D6008C292B /* MyParticle2.sks */,
 				184F662019D2677A005212D9 /* MyParticle3.sks */,
 				184F664719D2C129005212D9 /* MyParticle.sks */,
@@ -214,7 +213,8 @@
 				18DD953119CE84BD00A66101 /* desk_375667.jpg */,
 				18DD953219CE84BD00A66101 /* desk_414736.jpg */,
 				18DD953319CE84BD00A66101 /* line.png */,
-				1812D0EA19D547980073705B /* rocket.atlas */,
+				1820F19919D7937B00CA63B0 /* gameover.png */,
+				1820F19B19D793CA00CA63B0 /* rocket.atlas */,
 				184F662219D271E8005212D9 /* redFishLeft.atlas */,
 				184F662319D271E8005212D9 /* redFishRight.atlas */,
 				184F661A19D25AD2005212D9 /* angaryLeft.atlas */,
@@ -343,13 +343,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
+				1820F19A19D7937B00CA63B0 /* gameover.png in Resources */,
 				184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
 				18DD953819CE84BD00A66101 /* line.png in Resources */,
 				184F664819D2C129005212D9 /* MyParticle.sks in Resources */,
 				188AAE3819D140D6008C292B /* MyParticle2.sks in Resources */,
 				184D850D19C95C21002FCA09 /* backSprite.png in Resources */,
-				1812D0ED19D54AC00073705B /* gameover.png in Resources */,
 				184F662419D271E8005212D9 /* redFishLeft.atlas in Resources */,
 				18DD953519CE84BD00A66101 /* desk_568.jpg in Resources */,
 				18DD953719CE84BD00A66101 /* desk_414736.jpg in Resources */,
@@ -361,7 +361,6 @@
 				18DD953D19CE9BBA00A66101 /* bubble1.png in Resources */,
 				184F664A19D2C4B3005212D9 /* MyParticle4.sks in Resources */,
 				184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */,
-				1812D0EB19D547980073705B /* rocket.atlas in Resources */,
 				188AAE3419D13F1F008C292B /* spark.png in Resources */,
 				184F661B19D25AD2005212D9 /* angaryLeft.atlas in Resources */,
 				184D850B19C953F0002FCA09 /* reload-04.png in Resources */,
@@ -380,6 +379,7 @@
 				184D851019C9794C002FCA09 /* yunLeft.atlas in Resources */,
 				184F662519D271E8005212D9 /* redFishRight.atlas in Resources */,
 				18DD953F19CE9BBA00A66101 /* bubble3.png in Resources */,
+				1820F19C19D793CA00CA63B0 /* rocket.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,9 @@
 
 @implementation ViewController
 
+GADBannerView *banner;
+GADInterstitial *bigBanner;
+
 - (BOOL)prefersStatusBarHidden{
     return YES;
 }
@@ -33,6 +36,37 @@
     
     // Present the scene.
     [skView presentScene:scene];
+    
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(ad:) name:@"adShow" object:nil];
+    
+    banner = [[GADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - GAD_SIZE_320x50.height, GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+    banner.adUnitID = @"ca-app-pub-5564518885724507/7940241272";
+    banner.rootViewController = self;
+    [self.view addSubview:banner];
+    [banner loadRequest:[GADRequest request]];
+    //    GADRequest *request;
+    //    request.testDevices = @[ GAD_SIMULATOR_ID, @"MY_TEST_DEVICE_ID" ];
+    banner.delegate=self;
+    banner.hidden=YES;
+}
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    [interstitial presentFromRootViewController:self];
+}
+
+- (void)ad:(NSNotification*)notification{
+    id obj = [notification object];
+    if ([obj isEqualToString:@"adShow"]){
+        banner.hidden=NO;
+    }else if ([obj isEqualToString:@"adHide"]){
+        banner.hidden=YES;
+    }else if ([obj isEqualToString:@"adLarge"]){
+        NSLog(@"large");
+        bigBanner=[[GADInterstitial alloc]init];
+        bigBanner.adUnitID=@"ca-app-pub-5564518885724507/9416974471";
+        [bigBanner loadRequest:[GADRequest request]];
+        bigBanner.delegate=self;
+    }
 }
 
 - (BOOL)shouldAutorotate

@@ -14,6 +14,11 @@
 {
     // Override point for customization after application launch.
      [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"BestScore"]==nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"0"] forKey:@"BestScore"];
+    }
+    
     return YES;
 }
 							

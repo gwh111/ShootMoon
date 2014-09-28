@@ -51,6 +51,8 @@ SKLabelNode *noticeNode;
 
 int currentScore=0, currentMaxScore=0, bestScore;
 
+int adCount=0;
+
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
@@ -107,7 +109,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
         sprite.physicsBody.dynamic=NO;
         
         bestNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
-        bestNode.text=@"Best: 0";
+        bestNode.text=[NSString stringWithFormat:@"Best: %@",[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]];
         bestNode.fontSize=15;
         bestNode.position=CGPointMake(250, 20);
         [self addChild:bestNode];
@@ -125,7 +127,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
                                                      [SKAction waitForDuration:0.5]]];
         [self runAction:[SKAction repeatActionForever:makeRocks]];
     }
-    [self gameoverPushView];
+//    [self gameoverPushView];
     return self;
 }
 
@@ -169,7 +171,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
             noticeNode.fontSize=25;
             noticeNode.alpha=0.5;
             noticeNode.fontColor=[SKColor whiteColor];
-            noticeNode.position=CGPointMake(CGRectGetMidX(self.frame),100);
+            noticeNode.position=CGPointMake(CGRectGetMidX(self.frame),50);
             [self addChild:noticeNode];
             [noticeNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                                     [SKAction waitForDuration:2],
@@ -215,9 +217,17 @@ int currentScore=0, currentMaxScore=0, bestScore;
             }];
         }
         
+        if ([node.name isEqualToString:@"Restart"]) {
+            [self enumerateChildNodesWithName:@"GameOverViewNode" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+            }];
+            [self reStart];
+        }
+        
         if (isStart==1&moveStop==0) {
             if ([touch locationInNode:self].y<120) {
                 if (canShoot==1) {
+                    NSLog(@"can%d",canShoot);
                     SKSpriteNode *sprite1 = [SKSpriteNode spriteNodeWithImageNamed:@"rocket1"];
                     sprite1.position = location;
                     sprite1.size=CGSizeMake(50, 50);
@@ -248,7 +258,7 @@ int currentScore=0, currentMaxScore=0, bestScore;
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
-    
+
     timeIntevel++;
     if (timeIntevel==moveSpeed) {
         timeIntevel=0;
@@ -271,7 +281,8 @@ int currentScore=0, currentMaxScore=0, bestScore;
                     sprite.position = CGPointMake(sprite.position.x+moveX,
                                                   sprite.position.y+moveY);
                     
-                }else if (node.position.x<40|node.position.x>self.view.bounds.size.width-40){
+                }
+                if (node.position.x<40|node.position.x>self.view.bounds.size.width-40){
                     moveX=-moveX;
                     sprite.position = CGPointMake(sprite.position.x+moveX,
                                                   sprite.position.y+moveY);
@@ -282,7 +293,6 @@ int currentScore=0, currentMaxScore=0, bestScore;
                     }else{
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
                     }
-                    
                 }
                 
             }];
@@ -336,10 +346,12 @@ int currentScore=0, currentMaxScore=0, bestScore;
                 canShoot=1;
                 if (moveX<0) {
                     [sprite runAction:[self myAnimation:4]completion:^{
+                        [self gameoverPushView];
                         moveStop=0;
                     }];
                 }else{
                     [sprite runAction:[self myAnimation:5]completion:^{
+                        [self gameoverPushView];
                         moveStop=0;
                     }];
                 }
@@ -528,17 +540,32 @@ int currentScore=0, currentMaxScore=0, bestScore;
         }];
         
         [sprite removeAllActions];
+        
+        if (hitTimes%3==0) {
+            NSLog(@"+1");
+            if (moveX<0) {
+                moveX--;
+            }else{
+                moveX++;
+            }
+            if (moveY<0) {
+                moveY--;
+            }else{
+                moveY++;
+            }
+        }
+        
         if (moveX<0) {
             [sprite runAction:[SKAction group:@[
                                                 [self myAnimation:8],
                                                 shakeAction]] completion:^{
-                if (hitTimes==1) {
+                if (hitTimes==4) {
                     [self addRedFish:1];
                     
-                }else if (hitTimes==2){
+                }else if (hitTimes==8){
                     [self addRedFish:2];
                     
-                }else if (hitTimes==3){
+                }else if (hitTimes==12){
                     [self addRedFish:3];
                     
                 }else{
@@ -554,13 +581,13 @@ int currentScore=0, currentMaxScore=0, bestScore;
             [sprite runAction:[SKAction group:@[
                                                 [self myAnimation:9],
                                                 shakeAction]] completion:^{
-                if (hitTimes==1) {
+                if (hitTimes==4) {
                     [self addRedFish:1];
                     
-                }else if (hitTimes==2){
+                }else if (hitTimes==8){
                     [self addRedFish:2];
                     
-                }else if (hitTimes==3){
+                }else if (hitTimes==12){
                     [self addRedFish:3];
                     
                 }else{
@@ -579,7 +606,26 @@ int currentScore=0, currentMaxScore=0, bestScore;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory) {
         NSLog(@"hitRedFish");
+        
         [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
+            
+            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+            myEmitterNode.position = node.position;
+            [self addChild:myEmitterNode];
+            [node removeFromParent];
+            
+            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+            [myEmitterNode runAction:[SKAction group:@[
+                                                          fadeOutAction,
+                                                          scaleTo]] completion:^{
+                
+                [myEmitterNode removeFromParent];
+                [self gameoverPushView];
+            }];
+            
+        }];
+        [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
     }
@@ -587,6 +633,22 @@ int currentScore=0, currentMaxScore=0, bestScore;
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory2) {
         NSLog(@"hitRedFish2");
         [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
+            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+            myEmitterNode.position = node.position;
+            [self addChild:myEmitterNode];
+            [node removeFromParent];
+            
+            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+            [myEmitterNode runAction:[SKAction group:@[
+                                                       fadeOutAction,
+                                                       scaleTo]] completion:^{
+                
+                [myEmitterNode removeFromParent];
+                [self gameoverPushView];
+            }];
+        }];
+        [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
     }
@@ -594,6 +656,22 @@ int currentScore=0, currentMaxScore=0, bestScore;
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory3) {
         NSLog(@"hitRedFish3");
         [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+            myEmitterNode.position = node.position;
+            [self addChild:myEmitterNode];
+            [node removeFromParent];
+            
+            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+            [myEmitterNode runAction:[SKAction group:@[
+                                                       fadeOutAction,
+                                                       scaleTo]] completion:^{
+                
+                [myEmitterNode removeFromParent];
+                [self gameoverPushView];
+            }];
+        }];
+        [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
     }
@@ -1199,26 +1277,79 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 - (void)gameoverPushView{
+    adCount++;
+    if (adCount==5) {
+        adCount=0;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adLarge"];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adShow"];
+    }
+
     canShoot=0;
     SKSpriteNode *gameoverBackViewNode=[SKSpriteNode spriteNodeWithImageNamed:@"gameover.png"];
     gameoverBackViewNode.position = CGPointMake(CGRectGetMidX(self.frame),
                                                 CGRectGetMidY(self.frame));
-    gameoverBackViewNode.size=CGSizeMake(250, 400);
+    gameoverBackViewNode.size=CGSizeMake(250, 350);
+    gameoverBackViewNode.name=@"GameOverViewNode";
     [self addChild:gameoverBackViewNode];
     
     SKLabelNode *scoreLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
     scoreLabel.text=@"Your Score:";
     scoreLabel.fontSize=15;
     scoreLabel.fontColor=[SKColor purpleColor];
-    scoreLabel.position=CGPointMake(0, 50);
+    scoreLabel.position=CGPointMake(0, 40);
     [gameoverBackViewNode addChild:scoreLabel];
     
     SKLabelNode *scoreNumLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
-    scoreNumLabel.text=@"50";
+    scoreNumLabel.text=[NSString stringWithFormat:@"%d",currentScore];
     scoreNumLabel.fontSize=35;
     scoreNumLabel.fontColor=[SKColor orangeColor];
-    scoreNumLabel.position=CGPointMake(0, 0);
+    scoreNumLabel.position=CGPointMake(0, -10);
     [gameoverBackViewNode addChild:scoreNumLabel];
+    
+    SKLabelNode *restartLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+    restartLabel.text=@"Restart";
+    restartLabel.name=@"Restart";
+    restartLabel.fontSize=20;
+    restartLabel.fontColor=[SKColor blackColor];
+    restartLabel.position=CGPointMake(0, -60);
+    [gameoverBackViewNode addChild:restartLabel];
+    restartLabel.alpha=0.8;
+    
+    SKAction *fadeOut=[SKAction fadeAlphaTo:0.5 duration:1];
+    SKAction *fadeIn=[SKAction fadeAlphaTo:0.8 duration:1];
+    [restartLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                               fadeOut,
+                                                                               fadeIn]]]];
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]integerValue]<currentScore) {
+        NSLog(@"newrecord");
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",currentScore] forKey:@"BestScore"];
+        
+        SKLabelNode *newRecordLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+        newRecordLabel.text=@"New Record";
+        newRecordLabel.fontSize=10;
+        newRecordLabel.fontColor=[SKColor redColor];
+        newRecordLabel.position=CGPointMake(0, 70);
+        [gameoverBackViewNode addChild:newRecordLabel];
+        
+        [newRecordLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                                   [SKAction fadeAlphaTo:0.1 duration:1],
+                                                                                   [SKAction fadeAlphaTo:0.9 duration:1]]]]];
+        bestNode.text=[NSString stringWithFormat:@"Best: %@",[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"%d",buttonIndex);
+    double version = [[UIDevice currentDevice].systemVersion doubleValue];
+    if (buttonIndex==1) {
+        if (version<7) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=918937096"]];
+        }
+        else{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id918937096"]];
+        }
+    }
 }
 
 @end

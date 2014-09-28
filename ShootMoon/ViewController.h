@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
+#import "GADBannerView.h"
+#import "GADInterstitial.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<GADBannerViewDelegate,GADInterstitialDelegate>
 
 @end

@@ -13,3 +13,10 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @end
+
+
+//fenxiang weixin facebook
+
+//多一条命 三次 10+
+
+//rage button

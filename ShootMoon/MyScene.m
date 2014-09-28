@@ -53,6 +53,11 @@ int currentScore=0, currentMaxScore=0, bestScore;
 
 int adCount=0;
 
+int heartCount=0;
+int lives=0;
+
+int rocketSpeed;
+
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
@@ -127,6 +132,9 @@ int adCount=0;
                                                      [SKAction waitForDuration:0.5]]];
         [self runAction:[SKAction repeatActionForever:makeRocks]];
     }
+    
+
+    
 //    [self gameoverPushView];
     return self;
 }
@@ -141,6 +149,32 @@ int adCount=0;
         SKNode *node=[self nodeAtPoint:location];
         if ([node.name isEqualToString:@"Start"]) {
             NSLog(@"Start");
+            
+            SKLabelNode *rocketSpeedNode;
+            rocketSpeedNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+            rocketSpeedNode.fontSize=15;
+            rocketSpeedNode.alpha=0.8;
+            rocketSpeedNode.fontColor=[SKColor orangeColor];
+            rocketSpeedNode.position=CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)+100);
+            [self addChild:rocketSpeedNode];
+            
+            int x= arc4random_uniform(3);
+            if (x==0) {
+                rocketSpeed=20;
+                rocketSpeedNode.text=@"Rocket Speed: SSS";
+            }else if(x==1){
+                rocketSpeed=15;
+                rocketSpeedNode.text=@"Rocket Speed: SS";
+            }else{
+                rocketSpeed=10;
+                rocketSpeedNode.text=@"Rocket Speed: S";
+            }
+            
+            [rocketSpeedNode runAction:[SKAction sequence:@[
+                                                            [SKAction scaleTo:2 duration:2]]]completion:^{
+                [rocketSpeedNode removeFromParent];
+            }];
+            
             scoreNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
             scoreNode.text=@"Score: 0";
             scoreNode.fontSize=15;
@@ -163,7 +197,9 @@ int adCount=0;
             [lineSprite runAction:scaletoLarge completion:^{
                [lineSprite runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                                        [SKAction group:@[alpha1,scale1]],
-                                                                                       [SKAction group:@[alpha2,scale2]]]]]];
+                                                                                       [SKAction group:@[alpha2,scale2]]]]]completion:^{
+                   
+               }];
             }];
             
             noticeNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
@@ -171,7 +207,7 @@ int adCount=0;
             noticeNode.fontSize=25;
             noticeNode.alpha=0.5;
             noticeNode.fontColor=[SKColor whiteColor];
-            noticeNode.position=CGPointMake(CGRectGetMidX(self.frame),50);
+            noticeNode.position=CGPointMake(CGRectGetMidX(self.frame),80);
             [self addChild:noticeNode];
             [noticeNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                                     [SKAction waitForDuration:2],
@@ -182,38 +218,39 @@ int adCount=0;
             
             [self enumerateChildNodesWithName:@"Start" usingBlock:^(SKNode *node, BOOL *stop){
                
-                SKAction *startAction=[SKAction fadeOutWithDuration:1.7];
+                [node removeFromParent];
+
                 SKAction *scaleToSmall=[SKAction scaleTo:80 duration:1.7];
                 [sprite runAction:[SKAction group:@[
                                                    [self myAnimation:0],
-                                                   scaleToSmall]]];
-                
-
-                
-                [node runAction:startAction completion:^{
-                    [node removeFromParent];
-//                    self.physicsWorld.gravity = CGVectorMake(0,0);
-                    
+                                                   scaleToSmall]]completion:^{
                     [self directionInit];
                     isStart=1;
                     isPased=1;
+                    canShoot=1;
                     moveStop=0;
                     
                     restartButton=[UIButton buttonWithType:UIButtonTypeCustom];
-                    restartButton.frame=CGRectMake(10, 10, 30, 30);
+                    restartButton.frame=CGRectMake(10, 10, 40, 40);
                     [restartButton setBackgroundImage:[UIImage imageNamed:@"reload-04.png"] forState:UIControlStateNormal];
                     [self.view addSubview:restartButton];
                     [restartButton addTarget:self action:@selector(reStart) forControlEvents:UIControlEventTouchUpInside];
                     restartButton.alpha=0.6;
+                    
+                    SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:@"heart_0"];
+                    heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+                    heartNode.size=CGSizeMake(40, 40);
+                    heartNode.name=@"heart";
+                    [self addChild:heartNode];
                     
                     if (moveX<0) {
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
                     }else{
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
                     }
-                    
-                
+
                 }];
+
             }];
         }
         
@@ -221,9 +258,11 @@ int adCount=0;
             [self enumerateChildNodesWithName:@"GameOverViewNode" usingBlock:^(SKNode *node, BOOL *stop){
                 [node removeFromParent];
             }];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adHide"];
             [self reStart];
         }
-        
+        NSLog(@"isstart=%dmovestop=%dtouchlocation=%f",isStart,moveStop,[touch locationInNode:self].y);
         if (isStart==1&moveStop==0) {
             if ([touch locationInNode:self].y<120) {
                 if (canShoot==1) {
@@ -276,13 +315,13 @@ int adCount=0;
             [self enumerateChildNodesWithName:@"fish" usingBlock:^(SKNode *node, BOOL *stop){
                 
                 //        NSLog(@"node%f",node.position.y);
-                if (node.position.y<200|node.position.y>self.view.bounds.size.height-40) {
+                if (node.position.y<200|node.position.y>self.scene.size.height-40) {
                     moveY=-moveY;
                     sprite.position = CGPointMake(sprite.position.x+moveX,
                                                   sprite.position.y+moveY);
                     
                 }
-                if (node.position.x<40|node.position.x>self.view.bounds.size.width-40){
+                if (node.position.x<40|node.position.x>self.scene.size.width-40){
                     moveX=-moveX;
                     sprite.position = CGPointMake(sprite.position.x+moveX,
                                                   sprite.position.y+moveY);
@@ -339,33 +378,57 @@ int adCount=0;
         }
         
         [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
-            if (node.position.y>self.view.bounds.size.height) {
+            if (node.position.y>self.scene.size.height) {
+                
                 [node removeFromParent];
-                NSLog(@"remove");
-                moveStop=1;
-                canShoot=1;
-                if (moveX<0) {
-                    [sprite runAction:[self myAnimation:4]completion:^{
-                        [self gameoverPushView];
-                        moveStop=0;
+                
+                if (lives==1) {
+                    lives=0;
+                    heartCount=0;
+                    [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
+                        [node removeFromParent];
                     }];
+                    SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"heart_%d",heartCount]];
+                    heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+                    heartNode.size=CGSizeMake(40, 40);
+                    heartNode.name=@"heart";
+                    [self addChild:heartNode];
+                    
+                    [heartNode runAction:[SKAction sequence:@[
+                                                              [SKAction scaleTo:2 duration:0.2],
+                                                              [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                        moveStop=0;
+                        canShoot=1;
+                    }];
+                    
                 }else{
-                    [sprite runAction:[self myAnimation:5]completion:^{
-                        [self gameoverPushView];
-                        moveStop=0;
-                    }];
+                    NSLog(@"remove");
+                    moveStop=1;
+                    canShoot=1;
+                    if (moveX<0) {
+                        [sprite runAction:[self myAnimation:4]completion:^{
+                            [self gameoverPushView];
+                            moveStop=0;
+                        }];
+                    }else{
+                        [sprite runAction:[self myAnimation:5]completion:^{
+                            [self gameoverPushView];
+                            moveStop=0;
+                        }];
+                    }
                 }
+                
             }else{
-                node.position=CGPointMake(node.position.x, node.position.y+10);
+                node.position=CGPointMake(node.position.x, node.position.y+rocketSpeed);
             }
         }];
 
         [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
             
-            if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
+            if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish=-moveY_fish;
                 
-            }else if (node.position.x<30|node.position.x>self.view.bounds.size.width-30){
+            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish=-moveX_fish;
                 
                 if (moveX_fish<0) {
@@ -383,10 +446,10 @@ int adCount=0;
         
         [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
             
-            if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
+            if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish2=-moveY_fish2;
                 
-            }else if (node.position.x<30|node.position.x>self.view.bounds.size.width-30){
+            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish2=-moveX_fish2;
                 
                 if (moveX_fish2<0) {
@@ -404,10 +467,10 @@ int adCount=0;
         
         [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
             
-            if (node.position.y<190|node.position.y>self.view.bounds.size.height-30) {
+            if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish3=-moveY_fish3;
                 
-            }else if (node.position.x<30|node.position.x>self.view.bounds.size.width-30){
+            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish3=-moveX_fish3;
                 
                 if (moveX_fish3<0) {
@@ -471,37 +534,79 @@ int adCount=0;
                                                    shakeUp,shakeUp2,shakeDown]];
         
         SKLabelNode *hitLabel = [SKLabelNode labelNodeWithFontNamed:@"MarkerFelt-Wide"];
-       
-        if (sprite.position.y<100) {
+        float myHeight=self.scene.size.height;
+        if (sprite.position.y<250) {
             hitLabel.text = @"1";
             currentMaxScore=currentScore+1;
-        }else if (sprite.position.y>=100&sprite.position.y<150){
+        }else if (sprite.position.y>=250&sprite.position.y<250+(myHeight-250)/10){
             hitLabel.text = @"2";
             currentMaxScore=currentScore+2;
-        }else if (sprite.position.y>=150&sprite.position.y<200){
+        }else if (sprite.position.y>=250+(myHeight-250)/10&sprite.position.y<250+2*(myHeight-250)/10){
             hitLabel.text = @"3";
             currentMaxScore=currentScore+3;
-        }else if (sprite.position.y>=200&sprite.position.y<250){
+        }else if (sprite.position.y>=250+2*(myHeight-250)/10&sprite.position.y<250+3*(myHeight-250)/10){
             hitLabel.text = @"4";
             currentMaxScore=currentScore+4;
-        }else if (sprite.position.y>=250&sprite.position.y<300){
+        }else if (sprite.position.y>=250+3*(myHeight-250)/10&sprite.position.y<250+4*(myHeight-250)/10){
             hitLabel.text = @"5";
             currentMaxScore=currentScore+5;
-        }else if (sprite.position.y>=300&sprite.position.y<350){
+        }else if (sprite.position.y>=250+4*(myHeight-250)/10&sprite.position.y<250+5*(myHeight-250)/10){
             hitLabel.text = @"6";
             currentMaxScore=currentScore+6;
-        }else if (sprite.position.y>=350&sprite.position.y<400){
+        }else if (sprite.position.y>=250+5*(myHeight-250)/10&sprite.position.y<250+6*(myHeight-250)/10){
             hitLabel.text = @"7";
             currentMaxScore=currentScore+7;
-        }else if (sprite.position.y>=400&sprite.position.y<450){
+        }else if (sprite.position.y>=250+6*(myHeight-250)/10&sprite.position.y<250+7*(myHeight-250)/10){
             hitLabel.text = @"8";
             currentMaxScore=currentScore+8;
-        }else if (sprite.position.y>=450&sprite.position.y<500){
+        }else if (sprite.position.y>=250+7*(myHeight-250)/10&sprite.position.y<250+8*(myHeight-250)/10){
             hitLabel.text = @"9";
             currentMaxScore=currentScore+9;
-        }else if (sprite.position.y>=500){
+        }else if (sprite.position.y>=250+8*(myHeight-250)/10){
             hitLabel.text = @"10";
             currentMaxScore=currentScore+10;
+        }
+        
+        if (sprite.position.y>=250+6*(myHeight-250)/10) {
+            [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+                if (heartCount<3) {
+                    heartCount++;
+                    if (heartCount==3) {
+                        lives=1;
+                        SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle6" ofType:@"sks"]];
+                        myEmitterNode.position = node.position;
+                        [self addChild:myEmitterNode];
+                        [node removeFromParent];
+                        
+                        SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+                        SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+                        [myEmitterNode runAction:[SKAction group:@[
+                                                                   fadeOutAction,
+                                                                   scaleTo]] completion:^{
+                            
+                            [myEmitterNode removeFromParent];
+                        }];
+                        
+                    }
+                }
+                
+                SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"heart_%d",heartCount]];
+                heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+                heartNode.size=CGSizeMake(40, 40);
+                heartNode.name=@"heart";
+                [self addChild:heartNode];
+                
+                [heartNode runAction:[SKAction sequence:@[
+                                                         [SKAction scaleTo:2 duration:0.2],
+                                                         [SKAction scaleTo:1 duration:0.2]]]];
+                
+                if (lives==1) {
+                    [heartNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                                           [SKAction fadeAlphaTo:0.5 duration:0.5],
+                                                                                           [SKAction fadeAlphaTo:1 duration:0.6]]]]];
+                }
+            }];
         }
         
         hitLabel.fontSize = 20;
@@ -556,49 +661,102 @@ int adCount=0;
         }
         
         if (moveX<0) {
-            [sprite runAction:[SKAction group:@[
-                                                [self myAnimation:8],
-                                                shakeAction]] completion:^{
-                if (hitTimes==4) {
-                    [self addRedFish:1];
+            
+            if (sprite.position.y<250+2*(myHeight-250)/10) {
+                [sprite runAction:[SKAction group:@[
+                                                    [self myAnimation:6],
+                                                    shakeAction]] completion:^{
+                    if (hitTimes==4) {
+                        [self addRedFish:1];
+                        
+                    }else if (hitTimes==8){
+                        [self addRedFish:2];
+                        
+                    }else if (hitTimes==12){
+                        [self addRedFish:3];
+                        
+                    }else{
+                        isStart=1;
+                        isPased=1;
+                        moveStop=0;
+                        canShoot=1;
+                        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
+                    }
                     
-                }else if (hitTimes==8){
-                    [self addRedFish:2];
+                }];
+            }else{
+                [sprite runAction:[SKAction group:@[
+                                                    [self myAnimation:8],
+                                                    shakeAction]] completion:^{
+                    if (hitTimes==4) {
+                        [self addRedFish:1];
+                        
+                    }else if (hitTimes==8){
+                        [self addRedFish:2];
+                        
+                    }else if (hitTimes==12){
+                        [self addRedFish:3];
+                        
+                    }else{
+                        isStart=1;
+                        isPased=1;
+                        moveStop=0;
+                        canShoot=1;
+                        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
+                    }
                     
-                }else if (hitTimes==12){
-                    [self addRedFish:3];
-                    
-                }else{
-                    isStart=1;
-                    isPased=1;
-                    moveStop=0;
-                    canShoot=1;
-                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
-                }
-                
-            }];
+                }];
+            }
+            
+            
         }else{
-            [sprite runAction:[SKAction group:@[
-                                                [self myAnimation:9],
-                                                shakeAction]] completion:^{
-                if (hitTimes==4) {
-                    [self addRedFish:1];
+            
+            if (sprite.position.y<250+2*(myHeight-250)/10) {
+                [sprite runAction:[SKAction group:@[
+                                                    [self myAnimation:7],
+                                                    shakeAction]] completion:^{
+                    if (hitTimes==4) {
+                        [self addRedFish:1];
+                        
+                    }else if (hitTimes==8){
+                        [self addRedFish:2];
+                        
+                    }else if (hitTimes==12){
+                        [self addRedFish:3];
+                        
+                    }else{
+                        isStart=1;
+                        isPased=1;
+                        moveStop=0;
+                        canShoot=1;
+                        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
+                    }
                     
-                }else if (hitTimes==8){
-                    [self addRedFish:2];
+                }];
+            }else{
+                [sprite runAction:[SKAction group:@[
+                                                    [self myAnimation:9],
+                                                    shakeAction]] completion:^{
+                    if (hitTimes==4) {
+                        [self addRedFish:1];
+                        
+                    }else if (hitTimes==8){
+                        [self addRedFish:2];
+                        
+                    }else if (hitTimes==12){
+                        [self addRedFish:3];
+                        
+                    }else{
+                        isStart=1;
+                        isPased=1;
+                        moveStop=0;
+                        canShoot=1;
+                        [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
+                    }
                     
-                }else if (hitTimes==12){
-                    [self addRedFish:3];
-                    
-                }else{
-                    isStart=1;
-                    isPased=1;
-                    moveStop=0;
-                    canShoot=1;
-                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
-                }
-    
-            }];
+                }];
+            }
+            
         }
         
         
@@ -607,24 +765,59 @@ int adCount=0;
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory) {
         NSLog(@"hitRedFish");
         
-        [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
-            
-            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
-            myEmitterNode.position = node.position;
-            [self addChild:myEmitterNode];
-            [node removeFromParent];
-            
-            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
-            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
-            [myEmitterNode runAction:[SKAction group:@[
-                                                          fadeOutAction,
-                                                          scaleTo]] completion:^{
-                
-                [myEmitterNode removeFromParent];
-                [self gameoverPushView];
+        moveStop=1;
+        canShoot=0;
+        if (moveX<0) {
+            [sprite runAction:[self myAnimation:17]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:17]]];
+
             }];
+        }else{
+            [sprite runAction:[self myAnimation:18]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:18]]];
+
+            }];
+        }
+        
+        if (lives==1) {
+            lives=0;
+            heartCount=0;
+            [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+            }];
+            SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"heart_%d",heartCount]];
+            heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+            heartNode.size=CGSizeMake(40, 40);
+            heartNode.name=@"heart";
+            [self addChild:heartNode];
             
-        }];
+            [heartNode runAction:[SKAction sequence:@[
+                                                      [SKAction scaleTo:2 duration:0.2],
+                                                      [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                moveStop=1;
+                canShoot=1;
+            }];
+        }else{
+            [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
+                
+                SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+                myEmitterNode.position = node.position;
+                [self addChild:myEmitterNode];
+                [node removeFromParent];
+                
+                SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+                SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+                [myEmitterNode runAction:[SKAction group:@[
+                                                           fadeOutAction,
+                                                           scaleTo]] completion:^{
+                    
+                    [myEmitterNode removeFromParent];
+                    [self gameoverPushView];
+                }];
+                
+            }];
+        }
+        
         [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
@@ -632,22 +825,58 @@ int adCount=0;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory2) {
         NSLog(@"hitRedFish2");
-        [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
-            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
-            myEmitterNode.position = node.position;
-            [self addChild:myEmitterNode];
-            [node removeFromParent];
-            
-            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
-            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
-            [myEmitterNode runAction:[SKAction group:@[
-                                                       fadeOutAction,
-                                                       scaleTo]] completion:^{
+        
+        moveStop=1;
+        canShoot=0;
+        if (moveX<0) {
+            [sprite runAction:[self myAnimation:17]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:17]]];
                 
-                [myEmitterNode removeFromParent];
-                [self gameoverPushView];
             }];
-        }];
+        }else{
+            [sprite runAction:[self myAnimation:18]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:18]]];
+                
+            }];
+        }
+        
+        if (lives==1) {
+            lives=0;
+            heartCount=0;
+            [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+            }];
+            SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"heart_%d",heartCount]];
+            heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+            heartNode.size=CGSizeMake(40, 40);
+            heartNode.name=@"heart";
+            [self addChild:heartNode];
+            
+            [heartNode runAction:[SKAction sequence:@[
+                                                      [SKAction scaleTo:2 duration:0.2],
+                                                      [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                moveStop=1;
+                canShoot=1;
+            }];
+        }else{
+            [self enumerateChildNodesWithName:@"RedFish2" usingBlock:^(SKNode *node, BOOL *stop){
+                SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+                myEmitterNode.position = node.position;
+                [self addChild:myEmitterNode];
+                [node removeFromParent];
+                
+                SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+                SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+                [myEmitterNode runAction:[SKAction group:@[
+                                                           fadeOutAction,
+                                                           scaleTo]] completion:^{
+                    
+                    [myEmitterNode removeFromParent];
+                    [self gameoverPushView];
+                }];
+            }];
+        }
+        
         [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
@@ -655,22 +884,58 @@ int adCount=0;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory3) {
         NSLog(@"hitRedFish3");
-        [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
-            SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
-            myEmitterNode.position = node.position;
-            [self addChild:myEmitterNode];
-            [node removeFromParent];
-            
-            SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
-            SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
-            [myEmitterNode runAction:[SKAction group:@[
-                                                       fadeOutAction,
-                                                       scaleTo]] completion:^{
+        
+        moveStop=1;
+        canShoot=0;
+        if (moveX<0) {
+            [sprite runAction:[self myAnimation:17]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:17]]];
                 
-                [myEmitterNode removeFromParent];
-                [self gameoverPushView];
             }];
-        }];
+        }else{
+            [sprite runAction:[self myAnimation:18]completion:^{
+                [sprite runAction:[SKAction repeatActionForever:[self myAnimation:18]]];
+                
+            }];
+        }
+        
+        if (lives==1) {
+            lives=0;
+            heartCount=0;
+            [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+            }];
+            SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"heart_%d",heartCount]];
+            heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
+            heartNode.size=CGSizeMake(40, 40);
+            heartNode.name=@"heart";
+            [self addChild:heartNode];
+            
+            [heartNode runAction:[SKAction sequence:@[
+                                                      [SKAction scaleTo:2 duration:0.2],
+                                                      [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                moveStop=1;
+                canShoot=1;
+            }];
+        }else{
+            [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+                SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle5" ofType:@"sks"]];
+                myEmitterNode.position = node.position;
+                [self addChild:myEmitterNode];
+                [node removeFromParent];
+                
+                SKAction *fadeOutAction=[SKAction fadeAlphaTo:0 duration:0.8];
+                SKAction *scaleTo=[SKAction scaleTo:3 duration:0.8];
+                [myEmitterNode runAction:[SKAction group:@[
+                                                           fadeOutAction,
+                                                           scaleTo]] completion:^{
+                    
+                    [myEmitterNode removeFromParent];
+                    [self gameoverPushView];
+                }];
+            }];
+        }
+        
         [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
             [node removeFromParent];
         }];
@@ -688,28 +953,36 @@ int adCount=0;
         case 1:
             moveX=fishSpeed1;
             moveY=-fishSpeed1;
+            break;
         case 2:
             moveX=-fishSpeed1;
             moveY=fishSpeed1;
+            break;
         case 3:
             moveX=-fishSpeed1;
             moveY=-fishSpeed1;
+            break;
         case 4:
             moveX=fishSpeed1;
             moveY=fishSpeed2;
+            break;
         case 5:
             moveX=fishSpeed1;
             moveY=-fishSpeed2;
+            break;
         case 6:
             moveX=-fishSpeed1;
             moveY=fishSpeed2;
+            break;
         case 7:
             moveX=-fishSpeed1;
             moveY=-fishSpeed2;
+            break;
             
         default:
             break;
     }
+    NSLog(@"movex=%fmovey=%f",moveX,moveY);
 }
 
 - (SKAction *)myAnimation:(int)animationNumber{
@@ -964,6 +1237,22 @@ int adCount=0;
     }
     SKAction *rocketAction=[SKAction animateWithTextures:rocketArray timePerFrame:0.1];
     
+    SKTextureAtlas *atlas17 = [SKTextureAtlas atlasNamed:@"fishLauchLeft"];
+    NSArray *fishLauchLeftArray=[[NSArray alloc]init];
+    for (int i=1; i<4; i++) {
+        SKTexture *temp=[atlas17 textureNamed:[NSString stringWithFormat:@"fishLauchLeft%d.png",i]];
+        fishLauchLeftArray=[fishLauchLeftArray arrayByAddingObject:temp];
+    }
+    SKAction *fishLauchLeftAction=[SKAction animateWithTextures:fishLauchLeftArray timePerFrame:0.1];
+    
+    SKTextureAtlas *atlas18=[SKTextureAtlas atlasNamed:@"fishLauchRight"];
+    NSArray *fishLauchRightArray=[[NSArray alloc]init];
+    for (int i=1; i<4; i++) {
+        SKTexture *temp=[atlas18 textureNamed:[NSString stringWithFormat:@"fishLauchRight%d.png",i]];
+        fishLauchRightArray=[fishLauchRightArray arrayByAddingObject:temp];
+    }
+    SKAction *fishLauchRightAction=[SKAction animateWithTextures:fishLauchRightArray timePerFrame:0.1];
+    
     if (animationNumber==0) {
         return eatAction;
     }else if (animationNumber==1){
@@ -998,6 +1287,10 @@ int adCount=0;
         return redFishRightAction;
     }else if (animationNumber==16){
         return rocketAction;
+    }else if (animationNumber==17){
+        return fishLauchLeftAction;
+    }else if (animationNumber==18){
+        return fishLauchRightAction;
     }
     else{
         NSLog(@"nil");
@@ -1011,7 +1304,10 @@ int adCount=0;
     isPased=0;
     moveStop=1;
     hitTimes=0;
+    heartCount=0;
+    lives=0;
     [sprite removeFromParent];
+    [noticeNode removeFromParent];
     [restartButton removeFromSuperview];
     [self enumerateChildNodesWithName:@"Notice" usingBlock:^(SKNode *node, BOOL *stop){
         [node removeFromParent];
@@ -1030,18 +1326,6 @@ int adCount=0;
     [sprite runAction:scaleToSmall];
     [sprite runAction:[SKAction repeatActionForever:[self myAnimation:3]]];
     
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
-    myLabel.text = @"Tap To Start";
-    myLabel.fontSize = 20;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                   CGRectGetMidY(self.frame)-100);
-    [self addChild:myLabel];
-    myLabel.name=@"Start";
-    SKAction *fadeOutAction=[SKAction fadeAlphaTo:0.1 duration:2];
-    SKAction *fadeInAction=[SKAction fadeAlphaTo:1 duration:2];
-    [myLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[
-                                                                          fadeOutAction,
-                                                                          fadeInAction]]]];
     SKAction *moveUpAction=[SKAction fadeAlphaTo:0 duration:1];
     SKAction *scaleToZero=[SKAction scaleXTo:1 duration:1];
     [scoreNode runAction:moveUpAction completion:^{
@@ -1051,6 +1335,19 @@ int adCount=0;
                                             moveUpAction,
                                             scaleToZero]] completion:^{
         [lineSprite removeFromParent];
+        
+        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
+        myLabel.text = @"Tap To Start";
+        myLabel.fontSize = 20;
+        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
+                                       CGRectGetMidY(self.frame)-100);
+        [self addChild:myLabel];
+        myLabel.name=@"Start";
+        SKAction *fadeOutAction=[SKAction fadeAlphaTo:0.1 duration:2];
+        SKAction *fadeInAction=[SKAction fadeAlphaTo:1 duration:2];
+        [myLabel runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                              fadeOutAction,
+                                                                              fadeInAction]]]];
     }];
     
     [self enumerateChildNodesWithName:@"RedFish1" usingBlock:^(SKNode *node, BOOL *stop){
@@ -1060,6 +1357,9 @@ int adCount=0;
         [node removeFromParent];
     }];
     [self enumerateChildNodesWithName:@"RedFish3" usingBlock:^(SKNode *node, BOOL *stop){
+        [node removeFromParent];
+    }];
+    [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
         [node removeFromParent];
     }];
 }
@@ -1277,6 +1577,8 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 - (void)gameoverPushView{
+    [restartButton removeFromSuperview];
+    [noticeNode removeFromParent];
     adCount++;
     if (adCount==5) {
         adCount=0;
@@ -1327,7 +1629,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
         
         SKLabelNode *newRecordLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
         newRecordLabel.text=@"New Record";
-        newRecordLabel.fontSize=10;
+        newRecordLabel.fontSize=25;
         newRecordLabel.fontColor=[SKColor redColor];
         newRecordLabel.position=CGPointMake(0, 70);
         [gameoverBackViewNode addChild:newRecordLabel];
@@ -1340,14 +1642,14 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"%d",buttonIndex);
+
     double version = [[UIDevice currentDevice].systemVersion doubleValue];
     if (buttonIndex==1) {
         if (version<7) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=918937096"]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=923811726"]];
         }
         else{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id918937096"]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id923811726"]];
         }
     }
 }

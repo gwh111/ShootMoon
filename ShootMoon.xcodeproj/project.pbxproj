@@ -17,6 +17,13 @@
 		1820F1F219D7B32000CA63B0 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1F019D7B32000CA63B0 /* libGoogleAdMobAds.a */; };
 		1820F1F319D7B32000CA63B0 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F119D7B32000CA63B0 /* README.txt */; };
 		1820F1F519D7B36700CA63B0 /* rocket.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F419D7B36700CA63B0 /* rocket.atlas */; };
+		1820F1FB19D7E08200CA63B0 /* heart_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F719D7E08200CA63B0 /* heart_0.png */; };
+		1820F1FC19D7E08200CA63B0 /* heart_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F819D7E08200CA63B0 /* heart_1.png */; };
+		1820F1FD19D7E08200CA63B0 /* heart_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F919D7E08200CA63B0 /* heart_2.png */; };
+		1820F1FE19D7E08200CA63B0 /* heart_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1FA19D7E08200CA63B0 /* heart_3.png */; };
+		1820F20219D7E6AD00CA63B0 /* MyParticle6.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */; };
+		1820F20519D7F86E00CA63B0 /* fishLauchLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20319D7F86E00CA63B0 /* fishLauchLeft.atlas */; };
+		1820F20619D7F86E00CA63B0 /* fishLauchRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20419D7F86E00CA63B0 /* fishLauchRight.atlas */; };
 		184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850219C93774002FCA09 /* hideTongeLeft.atlas */; };
 		184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850319C93774002FCA09 /* hideTongeRight.atlas */; };
 		184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850619C94EFC002FCA09 /* cryLeft.atlas */; };
@@ -116,6 +123,13 @@
 		1820F1F019D7B32000CA63B0 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		1820F1F119D7B32000CA63B0 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		1820F1F419D7B36700CA63B0 /* rocket.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = rocket.atlas; sourceTree = "<group>"; };
+		1820F1F719D7E08200CA63B0 /* heart_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_0.png; sourceTree = "<group>"; };
+		1820F1F819D7E08200CA63B0 /* heart_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_1.png; sourceTree = "<group>"; };
+		1820F1F919D7E08200CA63B0 /* heart_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_2.png; sourceTree = "<group>"; };
+		1820F1FA19D7E08200CA63B0 /* heart_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_3.png; sourceTree = "<group>"; };
+		1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle6.sks; sourceTree = "<group>"; };
+		1820F20319D7F86E00CA63B0 /* fishLauchLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishLauchLeft.atlas; sourceTree = "<group>"; };
+		1820F20419D7F86E00CA63B0 /* fishLauchRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishLauchRight.atlas; sourceTree = "<group>"; };
 		184D850219C93774002FCA09 /* hideTongeLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeLeft.atlas; sourceTree = "<group>"; };
 		184D850319C93774002FCA09 /* hideTongeRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeRight.atlas; sourceTree = "<group>"; };
 		184D850619C94EFC002FCA09 /* cryLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cryLeft.atlas; sourceTree = "<group>"; };
@@ -272,6 +286,17 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		1820F1F619D7E08200CA63B0 /* heart */ = {
+			isa = PBXGroup;
+			children = (
+				1820F1F719D7E08200CA63B0 /* heart_0.png */,
+				1820F1F819D7E08200CA63B0 /* heart_1.png */,
+				1820F1F919D7E08200CA63B0 /* heart_2.png */,
+				1820F1FA19D7E08200CA63B0 /* heart_3.png */,
+			);
+			path = heart;
+			sourceTree = "<group>";
+		};
 		18F8F7C019C7E3CC007D26A3 = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +349,7 @@
 				184F664719D2C129005212D9 /* MyParticle.sks */,
 				184F664919D2C4B3005212D9 /* MyParticle4.sks */,
 				1820F19D19D7A85000CA63B0 /* MyParticle5.sks */,
+				1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */,
 				188AAE3219D13F1F008C292B /* spark.png */,
 				18DD953919CE9BBA00A66101 /* bubble1.png */,
 				18DD953A19CE9BBA00A66101 /* bubble2.png */,
@@ -338,6 +364,9 @@
 				18DD953219CE84BD00A66101 /* desk_414736.jpg */,
 				18DD953319CE84BD00A66101 /* line.png */,
 				1820F19919D7937B00CA63B0 /* gameover.png */,
+				1820F1F619D7E08200CA63B0 /* heart */,
+				1820F20319D7F86E00CA63B0 /* fishLauchLeft.atlas */,
+				1820F20419D7F86E00CA63B0 /* fishLauchRight.atlas */,
 				1820F1F419D7B36700CA63B0 /* rocket.atlas */,
 				184F662219D271E8005212D9 /* redFishLeft.atlas */,
 				184F662319D271E8005212D9 /* redFishRight.atlas */,
@@ -468,10 +497,12 @@
 			files = (
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
 				1820F19A19D7937B00CA63B0 /* gameover.png in Resources */,
+				1820F20519D7F86E00CA63B0 /* fishLauchLeft.atlas in Resources */,
 				184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
 				18DD953819CE84BD00A66101 /* line.png in Resources */,
 				184F664819D2C129005212D9 /* MyParticle.sks in Resources */,
+				1820F1FD19D7E08200CA63B0 /* heart_2.png in Resources */,
 				188AAE3819D140D6008C292B /* MyParticle2.sks in Resources */,
 				184D850D19C95C21002FCA09 /* backSprite.png in Resources */,
 				184F662419D271E8005212D9 /* redFishLeft.atlas in Resources */,
@@ -484,21 +515,26 @@
 				18DD953419CE84BD00A66101 /* desk_480.jpg in Resources */,
 				18DD954019CE9BBA00A66101 /* bubble4.png in Resources */,
 				18DD953D19CE9BBA00A66101 /* bubble1.png in Resources */,
+				1820F20619D7F86E00CA63B0 /* fishLauchRight.atlas in Resources */,
 				184F664A19D2C4B3005212D9 /* MyParticle4.sks in Resources */,
 				184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */,
 				188AAE3419D13F1F008C292B /* spark.png in Resources */,
 				184F661B19D25AD2005212D9 /* angaryLeft.atlas in Resources */,
 				184D850B19C953F0002FCA09 /* reload-04.png in Resources */,
 				1820F1F519D7B36700CA63B0 /* rocket.atlas in Resources */,
+				1820F20219D7E6AD00CA63B0 /* MyParticle6.sks in Resources */,
 				18F8F7EA19C7E3CC007D26A3 /* Spaceship.png in Resources */,
 				184F661D19D262CD005212D9 /* angaryRight.atlas in Resources */,
 				18F8F80919C8191D007D26A3 /* fishEat.atlas in Resources */,
+				1820F1FB19D7E08200CA63B0 /* heart_0.png in Resources */,
 				1820F19E19D7A85000CA63B0 /* MyParticle5.sks in Resources */,
 				184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */,
+				1820F1FC19D7E08200CA63B0 /* heart_1.png in Resources */,
 				18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */,
 				18DD953E19CE9BBA00A66101 /* bubble2.png in Resources */,
 				184F662119D2677A005212D9 /* MyParticle3.sks in Resources */,
 				184D851119C9794C002FCA09 /* yunRight.atlas in Resources */,
+				1820F1FE19D7E08200CA63B0 /* heart_3.png in Resources */,
 				18F8F80F19C82BE2007D26A3 /* fishSleep.atlas in Resources */,
 				18F8F7E219C7E3CC007D26A3 /* Main.storyboard in Resources */,
 				18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */,

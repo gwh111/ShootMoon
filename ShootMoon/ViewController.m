@@ -53,6 +53,7 @@ ShareWeixin *shareWeixin;
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;
     skView.showsNodeCount = YES;
+    skView.frameInterval=0.5;
     
     // Create and configure the scene.
     SKScene * scene = [MyScene sceneWithSize:skView.bounds.size];
@@ -101,6 +102,7 @@ ShareWeixin *shareWeixin;
         shareFacebook.hidden=NO;
         shareWeibo.hidden=NO;
         shareWeixin.hidden=NO;
+        
     }else if ([obj isEqualToString:@"shareHidden"]){
         NSLog(@"hidden");
         shareFacebook.hidden=YES;

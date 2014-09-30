@@ -8,6 +8,10 @@
 
 #import "MyScene.h"
 
+#import "ShareFacebook.h"
+#import "ShareWeibo.h"
+#import "ShareWeixin.h"
+
 static const uint32_t fishCategory     =  0x1 << 0;
 static const uint32_t rockCategory        =  0x1 << 1;
 static const uint32_t redFishCategory        =  0x1 << 2;
@@ -59,6 +63,10 @@ int lives=0;
 int rocketSpeed;
 
 AVAudioPlayer *audioPlayer;
+
+ShareFacebook *shareFacebook;
+ShareWeibo *shareWeibo;
+ShareWeixin *shareWeixin;
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
@@ -123,18 +131,17 @@ AVAudioPlayer *audioPlayer;
         
         SKAction *makeRocks=    [SKAction sequence:@[
                                                      [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                     [SKAction waitForDuration:0.2],
+                                                     [SKAction waitForDuration:0.4],
+                                                     [SKAction performSelector:@selector(addRock) onTarget:self],
+                                                     [SKAction waitForDuration:0.9],
                                                      [SKAction performSelector:@selector(addRock) onTarget:self],
                                                      [SKAction waitForDuration:0.6],
                                                      [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                     [SKAction waitForDuration:0.3],
+                                                     [SKAction waitForDuration:0.8],
                                                      [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                     [SKAction waitForDuration:0.4],
-                                                     [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                     [SKAction waitForDuration:0.5]]];
+                                                     [SKAction waitForDuration:1]]];
         [self runAction:[SKAction repeatActionForever:makeRocks]];
     }
-    
 
     
 //    [self gameoverPushView];
@@ -152,14 +159,16 @@ AVAudioPlayer *audioPlayer;
         if ([node.name isEqualToString:@"Start"]) {
             NSLog(@"Start");
             
-            NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"ReadyGo"
-                                                                  ofType:@"wav"];
-            NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
-            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
-                                                                 error:nil];
-            [audioPlayer setDelegate:self];
-            [audioPlayer prepareToPlay];
-            [audioPlayer play];
+//            NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"ReadyGo"
+//                                                                  ofType:@"wav"];
+//            NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+//            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+//                                                                 error:nil];
+//            [audioPlayer setDelegate:self];
+//            [audioPlayer prepareToPlay];
+//            [audioPlayer play];
+
+            [self runAction:[SKAction playSoundFileNamed:@"ReadyGo.wav" waitForCompletion:NO]];
             
             SKLabelNode *rocketSpeedNode;
             rocketSpeedNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
@@ -171,13 +180,13 @@ AVAudioPlayer *audioPlayer;
             
             int x= arc4random_uniform(3);
             if (x==0) {
-                rocketSpeed=20;
+                rocketSpeed=15;
                 rocketSpeedNode.text=@"Rocket Speed: SSS";
             }else if(x==1){
-                rocketSpeed=15;
+                rocketSpeed=10;
                 rocketSpeedNode.text=@"Rocket Speed: SS";
             }else{
-                rocketSpeed=10;
+                rocketSpeed=5;
                 rocketSpeedNode.text=@"Rocket Speed: S";
             }
             
@@ -247,7 +256,7 @@ AVAudioPlayer *audioPlayer;
                     [self.view addSubview:restartButton];
                     [restartButton addTarget:self action:@selector(reStart) forControlEvents:UIControlEventTouchUpInside];
                     restartButton.alpha=0.6;
-                    
+
                     SKSpriteNode *heartNode=[SKSpriteNode spriteNodeWithImageNamed:@"heart_0"];
                     heartNode.position=CGPointMake(self.scene.size.width-30, self.scene.size.height-30);
                     heartNode.size=CGSizeMake(40, 40);
@@ -327,10 +336,16 @@ AVAudioPlayer *audioPlayer;
             [self enumerateChildNodesWithName:@"fish" usingBlock:^(SKNode *node, BOOL *stop){
                 
                 //        NSLog(@"node%f",node.position.y);
-                if (node.position.y<200|node.position.y>self.scene.size.height-40) {
+                if (node.position.y<200) {
                     moveY=-moveY;
                     sprite.position = CGPointMake(sprite.position.x,
-                                                  sprite.position.y+moveY);
+                                                  200);
+                    
+                }
+                if (node.position.y>self.scene.size.height-40) {
+                    moveY=-moveY;
+                    sprite.position = CGPointMake(sprite.position.x,
+                                                  self.scene.size.height-40);
                     
                 }
                 if (node.position.x<40|node.position.x>self.scene.size.width-40){
@@ -669,16 +684,21 @@ AVAudioPlayer *audioPlayer;
         
         if (hitTimes%3==0) {
             NSLog(@"+1");
-            if (moveX<0) {
-                moveX--;
+            int t=arc4random_uniform(2);
+            if (t==0) {
+                if (moveY<0) {
+                    moveY--;
+                }else{
+                    moveY++;
+                }
             }else{
-                moveX++;
+                if (moveX<0) {
+                    moveX--;
+                }else{
+                    moveX++;
+                }
             }
-            if (moveY<0) {
-                moveY--;
-            }else{
-                moveY++;
-            }
+
         }
         
         if (moveX<0) {
@@ -815,6 +835,14 @@ AVAudioPlayer *audioPlayer;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                if (moveX<0) {
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
+                }else{
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
+                }
+                
                 moveStop=0;
                 canShoot=1;
             }];
@@ -876,6 +904,14 @@ AVAudioPlayer *audioPlayer;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                if (moveX<0) {
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
+                }else{
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
+                }
+                
                 moveStop=0;
                 canShoot=1;
             }];
@@ -935,6 +971,14 @@ AVAudioPlayer *audioPlayer;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
+                if (moveX<0) {
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
+                }else{
+                    [sprite removeAllActions];
+                    [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
+                }
+                
                 moveStop=0;
                 canShoot=1;
             }];
@@ -1662,6 +1706,10 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
                                                                                    [SKAction fadeAlphaTo:0.1 duration:1],
                                                                                    [SKAction fadeAlphaTo:0.9 duration:1]]]]];
         bestNode.text=[NSString stringWithFormat:@"Best: %@",[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]];
+        
+         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"I Got %d Score In Shoot The Fish!",currentScore] forKey:@"Facebook"];
+         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"我在打鲨鱼中获得了%d分！",currentScore] forKey:@"Weibo"];
+         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"我在打鲨鱼中获得了%d分！",currentScore] forKey:@"Weixin"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"shareShow"object:@"shareShow"];
         gameoverBackViewNode.size=CGSizeMake(250, 400);

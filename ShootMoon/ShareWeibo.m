@@ -27,10 +27,10 @@
     
     NSLog(@"isanzhuanglema");
     WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:[self messageToShare]];
-    request.userInfo = @{@"ShareMessageFrom": @"SendMessageToWeiboViewController",
-                         @"Other_Info_1": [NSNumber numberWithInt:123],
-                         @"Other_Info_2": @[@"obj1", @"obj2"],
-                         @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
+//    request.userInfo = @{@"ShareMessageFrom": @"SendMessageToWeiboViewController",
+//                         @"Other_Info_1": [NSNumber numberWithInt:123],
+//                         @"Other_Info_2": @[@"obj1", @"obj2"],
+//                         @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     //    request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
     
     [WeiboSDK sendRequest:request];
@@ -45,13 +45,13 @@
 //        WBImageObject *image = [WBImageObject object];
 //        image.imageData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image_1" ofType:@"jpg"]];
 //        message.imageObject = image;
-
+        message.text=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"Weibo"]];
         WBWebpageObject *webpage = [WBWebpageObject object];
         webpage.objectID = @"identifier1";
-        webpage.title = @"分享网页标题";
-        webpage.description = [NSString stringWithFormat:@"分享网页内容简介-%.0f", [[NSDate date] timeIntervalSince1970]];
+        webpage.title = @"打鲨鱼";
+        webpage.description = [NSString stringWithFormat:@"打鲨鱼"];
         webpage.thumbnailData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image_2" ofType:@"jpg"]];
-        webpage.webpageUrl = @"http://sina.cn?a=1";
+        webpage.webpageUrl = @"http://itunes.apple.com/cn/app/wei-bo/id350962117?mt=8";
         message.mediaObject = webpage;
     
     return message;

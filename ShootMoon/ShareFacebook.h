@@ -15,5 +15,6 @@
 @property (nonatomic,retain) NSString *contentString;
 
 - (id)initWithFrame:(CGRect)frame string:(NSString*)string;
+- (void)setString:(NSString*)string;
 
 @end

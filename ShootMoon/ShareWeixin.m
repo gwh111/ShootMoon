@@ -29,8 +29,8 @@
         [alt show];
     }else{
         WXMediaMessage *message = [WXMediaMessage message];
-        message.title = @"这种消息只有App自己才能理解，由App指定打开方式！";
-        message.description = @"微信的平台化发展方向是否真的会让这个原本简洁的产品变得臃肿？在国际化发展方向上，微信面临的问题真的是文化差异壁垒吗？腾讯高级副总裁、微信产品负责人张小龙给出了自己的回复。";
+        message.title = [[NSUserDefaults standardUserDefaults] objectForKey:@"Weixin"];
+        message.description = @"";
         [message setThumbImage:[UIImage imageNamed:@"facebook.png"]];
         
         WXWebpageObject *ext = [WXWebpageObject object];

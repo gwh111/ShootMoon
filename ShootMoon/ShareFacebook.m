@@ -40,7 +40,7 @@
     
     FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
     params.link = [NSURL URLWithString:@"http://itunes.apple.com/cn/app/wei-bo/id350962117?mt=8"];
-    params.name = contentString;
+    params.name = [[NSUserDefaults standardUserDefaults] objectForKey:@"Facebook"];
     
     BOOL can=[FBDialogs presentShareDialogWithParams:params
                                          clientState:nil
@@ -50,6 +50,10 @@
         UIAlertView *alt=[[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Please Download Facebook App To Use This Function." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alt show];
     }
+}
+
+- (void)setString:(NSString*)string{
+    contentString=[NSString stringWithFormat:@"%@",string];
 }
 
 /*

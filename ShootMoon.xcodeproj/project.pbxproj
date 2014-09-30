@@ -12,7 +12,6 @@
 		1820F1A219D7ADD100CA63B0 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1A119D7ADD100CA63B0 /* AdSupport.framework */; };
 		1820F1A419D7ADD700CA63B0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1A319D7ADD700CA63B0 /* AudioToolbox.framework */; };
 		1820F1A619D7ADE200CA63B0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1A519D7ADE200CA63B0 /* SystemConfiguration.framework */; };
-		1820F1A819D7ADE800CA63B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1A719D7ADE800CA63B0 /* StoreKit.framework */; };
 		1820F1AA19D7ADF700CA63B0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1A919D7ADF700CA63B0 /* MessageUI.framework */; };
 		1820F1F219D7B32000CA63B0 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820F1F019D7B32000CA63B0 /* libGoogleAdMobAds.a */; };
 		1820F1F319D7B32000CA63B0 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1820F1F119D7B32000CA63B0 /* README.txt */; };
@@ -24,6 +23,11 @@
 		1820F20219D7E6AD00CA63B0 /* MyParticle6.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */; };
 		1820F20519D7F86E00CA63B0 /* fishLauchLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20319D7F86E00CA63B0 /* fishLauchLeft.atlas */; };
 		1820F20619D7F86E00CA63B0 /* fishLauchRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1820F20419D7F86E00CA63B0 /* fishLauchRight.atlas */; };
+		18424EB519DA377200DEA48B /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18424EB219DA377200DEA48B /* libWeChatSDK.a */; };
+		18424EB819DA3B4700DEA48B /* ShareWeixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 18424EB719DA3B4700DEA48B /* ShareWeixin.m */; };
+		18424EBA19DA3D2D00DEA48B /* weixin.png in Resources */ = {isa = PBXBuildFile; fileRef = 18424EB919DA3D2D00DEA48B /* weixin.png */; };
+		18424EBC19DA42A500DEA48B /* res6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 18424EBB19DA42A500DEA48B /* res6.gif */; };
+		18424EBE19DA81E000DEA48B /* ReadyGo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 18424EBD19DA81E000DEA48B /* ReadyGo.wav */; };
 		184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850219C93774002FCA09 /* hideTongeLeft.atlas */; };
 		184D850519C93774002FCA09 /* hideTongeRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850319C93774002FCA09 /* hideTongeRight.atlas */; };
 		184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184D850619C94EFC002FCA09 /* cryLeft.atlas */; };
@@ -39,6 +43,15 @@
 		184F662519D271E8005212D9 /* redFishRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 184F662319D271E8005212D9 /* redFishRight.atlas */; };
 		184F664819D2C129005212D9 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 184F664719D2C129005212D9 /* MyParticle.sks */; };
 		184F664A19D2C4B3005212D9 /* MyParticle4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 184F664919D2C4B3005212D9 /* MyParticle4.sks */; };
+		1853593F19D8E9FD009FDDC7 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1853593E19D8E9FD009FDDC7 /* FacebookSDK.framework */; };
+		1853594419D91EB8009FDDC7 /* ShareFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853594319D91EB8009FDDC7 /* ShareFacebook.m */; };
+		1853594619D93E1A009FDDC7 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 1853594519D93E1A009FDDC7 /* facebook.png */; };
+		1853594819D94280009FDDC7 /* facebook2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1853594719D94280009FDDC7 /* facebook2.png */; };
+		1853594C19D94D4C009FDDC7 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1853594919D94D4C009FDDC7 /* libWeiboSDK.a */; };
+		1853594D19D94D4C009FDDC7 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1853594A19D94D4C009FDDC7 /* WeiboSDK.bundle */; };
+		1853595019D951C7009FDDC7 /* ShareWeibo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853594F19D951C7009FDDC7 /* ShareWeibo.m */; };
+		1853595219D95848009FDDC7 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1853595119D95848009FDDC7 /* weibo.png */; };
+		1853595419D95D5F009FDDC7 /* image_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1853595319D95D5F009FDDC7 /* image_2.jpg */; };
 		18753F4A19CAB2110096772B /* questionLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4819CAB2110096772B /* questionLeft.atlas */; };
 		18753F4B19CAB2110096772B /* questionRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 18753F4919CAB2110096772B /* questionRight.atlas */; };
 		188AAE3419D13F1F008C292B /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 188AAE3219D13F1F008C292B /* spark.png */; };
@@ -91,7 +104,6 @@
 		1820F1A119D7ADD100CA63B0 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		1820F1A319D7ADD700CA63B0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		1820F1A519D7ADE200CA63B0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1820F1A719D7ADE800CA63B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1820F1A919D7ADF700CA63B0 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1820F1D319D7B32000CA63B0 /* DFPBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPBannerView.h; sourceTree = "<group>"; };
 		1820F1D419D7B32000CA63B0 /* DFPExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPExtras.h; sourceTree = "<group>"; };
@@ -130,6 +142,14 @@
 		1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle6.sks; sourceTree = "<group>"; };
 		1820F20319D7F86E00CA63B0 /* fishLauchLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishLauchLeft.atlas; sourceTree = "<group>"; };
 		1820F20419D7F86E00CA63B0 /* fishLauchRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fishLauchRight.atlas; sourceTree = "<group>"; };
+		18424EB219DA377200DEA48B /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		18424EB319DA377200DEA48B /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		18424EB419DA377200DEA48B /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		18424EB619DA3B4700DEA48B /* ShareWeixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareWeixin.h; sourceTree = "<group>"; };
+		18424EB719DA3B4700DEA48B /* ShareWeixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareWeixin.m; sourceTree = "<group>"; };
+		18424EB919DA3D2D00DEA48B /* weixin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weixin.png; sourceTree = "<group>"; };
+		18424EBB19DA42A500DEA48B /* res6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = res6.gif; sourceTree = "<group>"; };
+		18424EBD19DA81E000DEA48B /* ReadyGo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ReadyGo.wav; sourceTree = "<group>"; };
 		184D850219C93774002FCA09 /* hideTongeLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeLeft.atlas; sourceTree = "<group>"; };
 		184D850319C93774002FCA09 /* hideTongeRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hideTongeRight.atlas; sourceTree = "<group>"; };
 		184D850619C94EFC002FCA09 /* cryLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cryLeft.atlas; sourceTree = "<group>"; };
@@ -145,6 +165,18 @@
 		184F662319D271E8005212D9 /* redFishRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = redFishRight.atlas; sourceTree = "<group>"; };
 		184F664719D2C129005212D9 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		184F664919D2C4B3005212D9 /* MyParticle4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle4.sks; sourceTree = "<group>"; };
+		1853593E19D8E9FD009FDDC7 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		1853594219D91EB8009FDDC7 /* ShareFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareFacebook.h; sourceTree = "<group>"; };
+		1853594319D91EB8009FDDC7 /* ShareFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareFacebook.m; sourceTree = "<group>"; };
+		1853594519D93E1A009FDDC7 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
+		1853594719D94280009FDDC7 /* facebook2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook2.png; sourceTree = "<group>"; };
+		1853594919D94D4C009FDDC7 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		1853594A19D94D4C009FDDC7 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		1853594B19D94D4C009FDDC7 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		1853594E19D951C7009FDDC7 /* ShareWeibo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareWeibo.h; sourceTree = "<group>"; };
+		1853594F19D951C7009FDDC7 /* ShareWeibo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareWeibo.m; sourceTree = "<group>"; };
+		1853595119D95848009FDDC7 /* weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibo.png; sourceTree = "<group>"; };
+		1853595319D95D5F009FDDC7 /* image_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_2.jpg; sourceTree = "<group>"; };
 		18753F4819CAB2110096772B /* questionLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionLeft.atlas; sourceTree = "<group>"; };
 		18753F4919CAB2110096772B /* questionRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = questionRight.atlas; sourceTree = "<group>"; };
 		188AAE3219D13F1F008C292B /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
@@ -193,13 +225,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1820F1AA19D7ADF700CA63B0 /* MessageUI.framework in Frameworks */,
-				1820F1A819D7ADE800CA63B0 /* StoreKit.framework in Frameworks */,
 				1820F1A619D7ADE200CA63B0 /* SystemConfiguration.framework in Frameworks */,
+				18424EB519DA377200DEA48B /* libWeChatSDK.a in Frameworks */,
 				1820F1A419D7ADD700CA63B0 /* AudioToolbox.framework in Frameworks */,
 				1820F1A219D7ADD100CA63B0 /* AdSupport.framework in Frameworks */,
 				18F8F7CF19C7E3CC007D26A3 /* CoreGraphics.framework in Frameworks */,
 				18F8F7D119C7E3CC007D26A3 /* UIKit.framework in Frameworks */,
+				1853594C19D94D4C009FDDC7 /* libWeiboSDK.a in Frameworks */,
 				18F8F7D319C7E3CC007D26A3 /* SpriteKit.framework in Frameworks */,
+				1853593F19D8E9FD009FDDC7 /* FacebookSDK.framework in Frameworks */,
 				18F8F7CD19C7E3CC007D26A3 /* Foundation.framework in Frameworks */,
 				1820F1F219D7B32000CA63B0 /* libGoogleAdMobAds.a in Frameworks */,
 			);
@@ -297,6 +331,33 @@
 			path = heart;
 			sourceTree = "<group>";
 		};
+		18424EAF19DA372300DEA48B /* WeiBo */ = {
+			isa = PBXGroup;
+			children = (
+				1853594919D94D4C009FDDC7 /* libWeiboSDK.a */,
+				1853594B19D94D4C009FDDC7 /* WeiboSDK.h */,
+				1853594A19D94D4C009FDDC7 /* WeiboSDK.bundle */,
+			);
+			name = WeiBo;
+			sourceTree = "<group>";
+		};
+		18424EB019DA372F00DEA48B /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Facebook;
+			sourceTree = "<group>";
+		};
+		18424EB119DA373A00DEA48B /* WeiXin */ = {
+			isa = PBXGroup;
+			children = (
+				18424EB219DA377200DEA48B /* libWeChatSDK.a */,
+				18424EB319DA377200DEA48B /* WXApi.h */,
+				18424EB419DA377200DEA48B /* WXApiObject.h */,
+			);
+			name = WeiXin;
+			sourceTree = "<group>";
+		};
 		18F8F7C019C7E3CC007D26A3 = {
 			isa = PBXGroup;
 			children = (
@@ -319,8 +380,8 @@
 		18F8F7CB19C7E3CC007D26A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1853593E19D8E9FD009FDDC7 /* FacebookSDK.framework */,
 				1820F1A919D7ADF700CA63B0 /* MessageUI.framework */,
-				1820F1A719D7ADE800CA63B0 /* StoreKit.framework */,
 				1820F1A519D7ADE200CA63B0 /* SystemConfiguration.framework */,
 				1820F1A319D7ADD700CA63B0 /* AudioToolbox.framework */,
 				1820F1A119D7ADD100CA63B0 /* AdSupport.framework */,
@@ -336,6 +397,9 @@
 		18F8F7D419C7E3CC007D26A3 /* ShootMoon */ = {
 			isa = PBXGroup;
 			children = (
+				18424EAF19DA372300DEA48B /* WeiBo */,
+				18424EB119DA373A00DEA48B /* WeiXin */,
+				18424EB019DA372F00DEA48B /* Facebook */,
 				1820F1D019D7B32000CA63B0 /* GoogleMobileAdsSdkiOS-6.12.0 */,
 				18F8F7DD19C7E3CC007D26A3 /* AppDelegate.h */,
 				18F8F7DE19C7E3CC007D26A3 /* AppDelegate.m */,
@@ -344,12 +408,25 @@
 				18F8F7E419C7E3CC007D26A3 /* ViewController.m */,
 				18F8F7E619C7E3CC007D26A3 /* MyScene.h */,
 				18F8F7E719C7E3CC007D26A3 /* MyScene.m */,
+				1853594219D91EB8009FDDC7 /* ShareFacebook.h */,
+				1853594319D91EB8009FDDC7 /* ShareFacebook.m */,
+				1853594E19D951C7009FDDC7 /* ShareWeibo.h */,
+				1853594F19D951C7009FDDC7 /* ShareWeibo.m */,
+				18424EB619DA3B4700DEA48B /* ShareWeixin.h */,
+				18424EB719DA3B4700DEA48B /* ShareWeixin.m */,
 				188AAE3719D140D6008C292B /* MyParticle2.sks */,
 				184F662019D2677A005212D9 /* MyParticle3.sks */,
 				184F664719D2C129005212D9 /* MyParticle.sks */,
 				184F664919D2C4B3005212D9 /* MyParticle4.sks */,
 				1820F19D19D7A85000CA63B0 /* MyParticle5.sks */,
 				1820F20119D7E6AD00CA63B0 /* MyParticle6.sks */,
+				18424EBD19DA81E000DEA48B /* ReadyGo.wav */,
+				18424EBB19DA42A500DEA48B /* res6.gif */,
+				1853595319D95D5F009FDDC7 /* image_2.jpg */,
+				18424EB919DA3D2D00DEA48B /* weixin.png */,
+				1853595119D95848009FDDC7 /* weibo.png */,
+				1853594519D93E1A009FDDC7 /* facebook.png */,
+				1853594719D94280009FDDC7 /* facebook2.png */,
 				188AAE3219D13F1F008C292B /* spark.png */,
 				18DD953919CE9BBA00A66101 /* bubble1.png */,
 				18DD953A19CE9BBA00A66101 /* bubble2.png */,
@@ -466,6 +543,14 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "___GWH___";
 				TargetAttributes = {
+					18F8F7C819C7E3CC007D26A3 = {
+						DevelopmentTeam = V988GE98EW;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
+					};
 					18F8F7F019C7E3CC007D26A3 = {
 						TestTargetID = 18F8F7C819C7E3CC007D26A3;
 					};
@@ -478,6 +563,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 18F8F7C019C7E3CC007D26A3;
 			productRefGroup = 18F8F7CA19C7E3CC007D26A3 /* Products */;
@@ -497,6 +583,7 @@
 			files = (
 				18F8F7D919C7E3CC007D26A3 /* InfoPlist.strings in Resources */,
 				1820F19A19D7937B00CA63B0 /* gameover.png in Resources */,
+				1853595419D95D5F009FDDC7 /* image_2.jpg in Resources */,
 				1820F20519D7F86E00CA63B0 /* fishLauchLeft.atlas in Resources */,
 				184D850819C94EFC002FCA09 /* cryLeft.atlas in Resources */,
 				18F8F7EC19C7E3CC007D26A3 /* Images.xcassets in Resources */,
@@ -504,24 +591,30 @@
 				184F664819D2C129005212D9 /* MyParticle.sks in Resources */,
 				1820F1FD19D7E08200CA63B0 /* heart_2.png in Resources */,
 				188AAE3819D140D6008C292B /* MyParticle2.sks in Resources */,
+				1853594819D94280009FDDC7 /* facebook2.png in Resources */,
 				184D850D19C95C21002FCA09 /* backSprite.png in Resources */,
 				184F662419D271E8005212D9 /* redFishLeft.atlas in Resources */,
 				18DD953519CE84BD00A66101 /* desk_568.jpg in Resources */,
 				18DD953719CE84BD00A66101 /* desk_414736.jpg in Resources */,
+				1853595219D95848009FDDC7 /* weibo.png in Resources */,
+				18424EBC19DA42A500DEA48B /* res6.gif in Resources */,
 				18F8F80D19C81EDA007D26A3 /* fishMoveRight.atlas in Resources */,
 				184D850419C93774002FCA09 /* hideTongeLeft.atlas in Resources */,
 				18DD953619CE84BD00A66101 /* desk_375667.jpg in Resources */,
 				1820F1F319D7B32000CA63B0 /* README.txt in Resources */,
 				18DD953419CE84BD00A66101 /* desk_480.jpg in Resources */,
 				18DD954019CE9BBA00A66101 /* bubble4.png in Resources */,
+				18424EBA19DA3D2D00DEA48B /* weixin.png in Resources */,
 				18DD953D19CE9BBA00A66101 /* bubble1.png in Resources */,
 				1820F20619D7F86E00CA63B0 /* fishLauchRight.atlas in Resources */,
 				184F664A19D2C4B3005212D9 /* MyParticle4.sks in Resources */,
 				184D850919C94EFC002FCA09 /* cryRight.atlas in Resources */,
 				188AAE3419D13F1F008C292B /* spark.png in Resources */,
 				184F661B19D25AD2005212D9 /* angaryLeft.atlas in Resources */,
+				1853594619D93E1A009FDDC7 /* facebook.png in Resources */,
 				184D850B19C953F0002FCA09 /* reload-04.png in Resources */,
 				1820F1F519D7B36700CA63B0 /* rocket.atlas in Resources */,
+				18424EBE19DA81E000DEA48B /* ReadyGo.wav in Resources */,
 				1820F20219D7E6AD00CA63B0 /* MyParticle6.sks in Resources */,
 				18F8F7EA19C7E3CC007D26A3 /* Spaceship.png in Resources */,
 				184F661D19D262CD005212D9 /* angaryRight.atlas in Resources */,
@@ -540,6 +633,7 @@
 				18F8F80C19C81EDA007D26A3 /* fishMoveLeft.atlas in Resources */,
 				18753F4B19CAB2110096772B /* questionRight.atlas in Resources */,
 				184D851019C9794C002FCA09 /* yunLeft.atlas in Resources */,
+				1853594D19D94D4C009FDDC7 /* WeiboSDK.bundle in Resources */,
 				184F662519D271E8005212D9 /* redFishRight.atlas in Resources */,
 				18DD953F19CE9BBA00A66101 /* bubble3.png in Resources */,
 			);
@@ -561,7 +655,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F8F7E819C7E3CC007D26A3 /* MyScene.m in Sources */,
+				18424EB819DA3B4700DEA48B /* ShareWeixin.m in Sources */,
 				18F8F7E519C7E3CC007D26A3 /* ViewController.m in Sources */,
+				1853595019D951C7009FDDC7 /* ShareWeibo.m in Sources */,
+				1853594419D91EB8009FDDC7 /* ShareFacebook.m in Sources */,
 				18F8F7DF19C7E3CC007D26A3 /* AppDelegate.m in Sources */,
 				18F8F7DB19C7E3CC007D26A3 /* main.m in Sources */,
 			);
@@ -645,7 +742,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -677,7 +774,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -688,6 +785,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/apple/Documents/FacebookSDK,
+					/Users/apple/Documents/FacebookSDK/FBAudienceNetwork,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShootMoon/ShootMoon-Prefix.pch";
 				INFOPLIST_FILE = "ShootMoon/ShootMoon-Info.plist";
@@ -695,6 +797,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShootMoon/GoogleMobileAdsSdkiOS-6.11.1",
 					"$(PROJECT_DIR)/ShootMoon/GoogleMobileAdsSdkiOS-6.12.0",
+					"$(PROJECT_DIR)/ShootMoon",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -709,6 +812,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/apple/Documents/FacebookSDK,
+					/Users/apple/Documents/FacebookSDK/FBAudienceNetwork,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShootMoon/ShootMoon-Prefix.pch";
 				INFOPLIST_FILE = "ShootMoon/ShootMoon-Info.plist";
@@ -716,6 +824,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShootMoon/GoogleMobileAdsSdkiOS-6.11.1",
 					"$(PROJECT_DIR)/ShootMoon/GoogleMobileAdsSdkiOS-6.12.0",
+					"$(PROJECT_DIR)/ShootMoon",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

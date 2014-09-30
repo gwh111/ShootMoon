@@ -58,6 +58,8 @@ int lives=0;
 
 int rocketSpeed;
 
+AVAudioPlayer *audioPlayer;
+
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
@@ -149,6 +151,15 @@ int rocketSpeed;
         SKNode *node=[self nodeAtPoint:location];
         if ([node.name isEqualToString:@"Start"]) {
             NSLog(@"Start");
+            
+            NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"ReadyGo"
+                                                                  ofType:@"wav"];
+            NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+                                                                 error:nil];
+            [audioPlayer setDelegate:self];
+            [audioPlayer prepareToPlay];
+            [audioPlayer play];
             
             SKLabelNode *rocketSpeedNode;
             rocketSpeedNode=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
@@ -260,6 +271,7 @@ int rocketSpeed;
             }];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adHide"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"shareShow"object:@"shareHidden"];
             [self reStart];
         }
         NSLog(@"isstart=%dmovestop=%dtouchlocation=%f",isStart,moveStop,[touch locationInNode:self].y);
@@ -317,19 +329,21 @@ int rocketSpeed;
                 //        NSLog(@"node%f",node.position.y);
                 if (node.position.y<200|node.position.y>self.scene.size.height-40) {
                     moveY=-moveY;
-                    sprite.position = CGPointMake(sprite.position.x+moveX,
+                    sprite.position = CGPointMake(sprite.position.x,
                                                   sprite.position.y+moveY);
                     
                 }
                 if (node.position.x<40|node.position.x>self.scene.size.width-40){
                     moveX=-moveX;
                     sprite.position = CGPointMake(sprite.position.x+moveX,
-                                                  sprite.position.y+moveY);
+                                                  sprite.position.y);
                     
                     NSLog(@"%f",moveX);
                     if (moveX<0) {
+                        [sprite removeAllActions];
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:1]]];
                     }else{
+                        [sprite removeAllActions];
                         [sprite runAction:[SKAction repeatActionForever:[self myAnimation:2]]];
                     }
                 }
@@ -362,19 +376,6 @@ int rocketSpeed;
                 }
             }
             
-            //                int i=arc4random_uniform(200);
-            //                if (i==1) {
-            //                    moveStop=1;
-            //                    if (moveX<0) {
-            //                        [sprite runAction:[self myAnimation:10]completion:^{
-            //                            moveStop=0;
-            //                        }];
-            //                    }else{
-            //                        [sprite runAction:[self myAnimation:11]completion:^{
-            //                            moveStop=0;
-            //                        }];
-            //                    }
-            //                }
         }
         
         [self enumerateChildNodesWithName:@"Spaceship" usingBlock:^(SKNode *node, BOOL *stop){
@@ -427,20 +428,28 @@ int rocketSpeed;
             
             if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish=-moveY_fish;
+                node.position = CGPointMake(node.position.x,
+                                            node.position.y+moveY_fish);
                 
-            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
+            }
+            
+            if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish=-moveX_fish;
+                node.position = CGPointMake(node.position.x+moveX_fish,
+                                            node.position.y);
                 
                 if (moveX_fish<0) {
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
                 }else{
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
                 }
                 
             }
-            
             node.position = CGPointMake(node.position.x+moveX_fish,
                                         node.position.y+moveY_fish);
+            
             
         }];
         
@@ -448,13 +457,21 @@ int rocketSpeed;
             
             if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish2=-moveY_fish2;
+                node.position = CGPointMake(node.position.x,
+                                            node.position.y+moveY_fish2);
                 
-            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
+            }
+            
+            if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish2=-moveX_fish2;
+                node.position = CGPointMake(node.position.x+moveX_fish2,
+                                            node.position.y);
                 
                 if (moveX_fish2<0) {
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
                 }else{
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
                 }
                 
@@ -469,13 +486,21 @@ int rocketSpeed;
             
             if (node.position.y<190|node.position.y>self.scene.size.height-30) {
                 moveY_fish3=-moveY_fish3;
+                node.position = CGPointMake(node.position.x,
+                                            node.position.y+moveY_fish3);
                 
-            }else if (node.position.x<30|node.position.x>self.scene.size.width-30){
+            }
+            
+            if (node.position.x<30|node.position.x>self.scene.size.width-30){
                 moveX_fish3=-moveX_fish3;
+                node.position = CGPointMake(node.position.x+moveX_fish3,
+                                            node.position.y);
                 
                 if (moveX_fish3<0) {
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:14]]];
                 }else{
+                    [node removeAllActions];
                     [node runAction:[SKAction repeatActionForever:[self myAnimation:15]]];
                 }
                 
@@ -491,10 +516,6 @@ int rocketSpeed;
 
 - (void)didSimulatePhysics{
 //NSLog(@"movex=%fmovey=%f",moveX,moveY);
-    
-    if (moveStop==0) {
-
-    }
     
     [self enumerateChildNodesWithName:@"rock" usingBlock:^(SKNode *node, BOOL *stop){
         if (node.position.y>self.scene.size.height) {
@@ -794,7 +815,7 @@ int rocketSpeed;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
-                moveStop=1;
+                moveStop=0;
                 canShoot=1;
             }];
         }else{
@@ -855,7 +876,7 @@ int rocketSpeed;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
-                moveStop=1;
+                moveStop=0;
                 canShoot=1;
             }];
         }else{
@@ -914,7 +935,7 @@ int rocketSpeed;
             [heartNode runAction:[SKAction sequence:@[
                                                       [SKAction scaleTo:2 duration:0.2],
                                                       [SKAction scaleTo:1 duration:0.2]]]completion:^{
-                moveStop=1;
+                moveStop=0;
                 canShoot=1;
             }];
         }else{
@@ -1306,6 +1327,8 @@ int rocketSpeed;
     hitTimes=0;
     heartCount=0;
     lives=0;
+    currentMaxScore=0;
+    currentScore=0;
     [sprite removeFromParent];
     [noticeNode removeFromParent];
     [restartButton removeFromSuperview];
@@ -1586,12 +1609,13 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     }else{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adShow"];
     }
-
+    
+    
     canShoot=0;
     SKSpriteNode *gameoverBackViewNode=[SKSpriteNode spriteNodeWithImageNamed:@"gameover.png"];
     gameoverBackViewNode.position = CGPointMake(CGRectGetMidX(self.frame),
                                                 CGRectGetMidY(self.frame));
-    gameoverBackViewNode.size=CGSizeMake(250, 350);
+    gameoverBackViewNode.size=CGSizeMake(250, 300);
     gameoverBackViewNode.name=@"GameOverViewNode";
     [self addChild:gameoverBackViewNode];
     
@@ -1614,7 +1638,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     restartLabel.name=@"Restart";
     restartLabel.fontSize=20;
     restartLabel.fontColor=[SKColor blackColor];
-    restartLabel.position=CGPointMake(0, -60);
+    restartLabel.position=CGPointMake(0, -50);
     [gameoverBackViewNode addChild:restartLabel];
     restartLabel.alpha=0.8;
     
@@ -1638,6 +1662,9 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
                                                                                    [SKAction fadeAlphaTo:0.1 duration:1],
                                                                                    [SKAction fadeAlphaTo:0.9 duration:1]]]]];
         bestNode.text=[NSString stringWithFormat:@"Best: %@",[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"shareShow"object:@"shareShow"];
+        gameoverBackViewNode.size=CGSizeMake(250, 400);
     }
 }
 
@@ -1652,6 +1679,15 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id923811726"]];
         }
     }
+}
+
+//播放完后
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player
+                       successfully:(BOOL)flag{
+    
+    NSLog(@"ffff");
+    
 }
 
 @end

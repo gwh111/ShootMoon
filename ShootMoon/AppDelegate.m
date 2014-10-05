@@ -24,7 +24,8 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"BestScore"]==nil) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"0"] forKey:@"BestScore"];
     }
-    
+    NSString *idfv = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSLog(@"idfv=%@",idfv);
     return YES;
 }
 

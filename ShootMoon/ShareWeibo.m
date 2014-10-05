@@ -50,8 +50,8 @@
         webpage.objectID = @"identifier1";
         webpage.title = @"打鲨鱼";
         webpage.description = [NSString stringWithFormat:@"打鲨鱼"];
-        webpage.thumbnailData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image_2" ofType:@"jpg"]];
-        webpage.webpageUrl = @"http://itunes.apple.com/cn/app/wei-bo/id350962117?mt=8";
+        webpage.thumbnailData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"120" ofType:@"png"]];
+        webpage.webpageUrl = @"https://itunes.apple.com/us/app/shoot-fish/id923811726?l=zh&ls=1&mt=8";
         message.mediaObject = webpage;
     
     return message;

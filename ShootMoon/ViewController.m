@@ -51,8 +51,8 @@ ShareWeixin *shareWeixin;
     
     // Configure the view.
     SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+    skView.showsFPS = NO;
+    skView.showsNodeCount = NO;
     skView.frameInterval=0.5;
     
     // Create and configure the scene.

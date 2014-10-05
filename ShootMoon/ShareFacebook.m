@@ -39,9 +39,9 @@
 - (void)share{
     
     FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-    params.link = [NSURL URLWithString:@"http://itunes.apple.com/cn/app/wei-bo/id350962117?mt=8"];
+    params.link = [NSURL URLWithString:@"https://itunes.apple.com/us/app/shoot-fish/id923811726?l=zh&ls=1&mt=8"];
     params.name = [[NSUserDefaults standardUserDefaults] objectForKey:@"Facebook"];
-    
+
     BOOL can=[FBDialogs presentShareDialogWithParams:params
                                          clientState:nil
                                              handler:NULL] != nil;

@@ -94,6 +94,12 @@ ShareWeixin *shareWeixin;
         }
         [self addChild:backgroundNode];
         
+        SKSpriteNode *loveNode=[SKSpriteNode spriteNodeWithImageNamed:@"love.png"];
+        loveNode.name=@"love";
+        loveNode.size=CGSizeMake(50, 50);
+        loveNode.position=CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+100);
+        [self addChild:loveNode];
+        
         SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
         myLabel.text = @"Tap To Start";
         myLabel.fontSize = 20;
@@ -117,7 +123,7 @@ ShareWeixin *shareWeixin;
         }];
         [self addChild:sprite];
         sprite.name=@"fish";
-        sprite.physicsBody=[SKPhysicsBody bodyWithCircleOfRadius:0.3];
+        sprite.physicsBody=[SKPhysicsBody bodyWithCircleOfRadius:0.2];
         sprite.physicsBody.categoryBitMask=fishCategory;
         sprite.physicsBody.contactTestBitMask=rockCategory;
         sprite.physicsBody.collisionBitMask=rockCategory;
@@ -143,7 +149,14 @@ ShareWeixin *shareWeixin;
         [self runAction:[SKAction repeatActionForever:makeRocks]];
     }
 
-    
+    NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"back"
+                                                          ofType:@"mp3"];
+    NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+                                                         error:nil];
+    [audioPlayer setDelegate:self];
+    [audioPlayer prepareToPlay];
+    [audioPlayer play];
 //    [self gameoverPushView];
     return self;
 }
@@ -159,14 +172,15 @@ ShareWeixin *shareWeixin;
         if ([node.name isEqualToString:@"Start"]) {
             NSLog(@"Start");
             
-//            NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"ReadyGo"
-//                                                                  ofType:@"wav"];
-//            NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
-//            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
-//                                                                 error:nil];
-//            [audioPlayer setDelegate:self];
-//            [audioPlayer prepareToPlay];
-//            [audioPlayer play];
+            [audioPlayer stop];
+            NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"scg"
+                                                                  ofType:@"mp3"];
+            NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+            audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+                                                                 error:nil];
+            [audioPlayer setDelegate:self];
+            [audioPlayer prepareToPlay];
+            [audioPlayer play];
 
             [self runAction:[SKAction playSoundFileNamed:@"ReadyGo.wav" waitForCompletion:NO]];
             
@@ -180,10 +194,10 @@ ShareWeixin *shareWeixin;
             
             int x= arc4random_uniform(3);
             if (x==0) {
-                rocketSpeed=15;
+                rocketSpeed=10;
                 rocketSpeedNode.text=@"Rocket Speed: SSS";
             }else if(x==1){
-                rocketSpeed=10;
+                rocketSpeed=8;
                 rocketSpeedNode.text=@"Rocket Speed: SS";
             }else{
                 rocketSpeed=5;
@@ -272,6 +286,9 @@ ShareWeixin *shareWeixin;
                 }];
 
             }];
+            [self enumerateChildNodesWithName:@"love" usingBlock:^(SKNode *node, BOOL *stop){
+                [node removeFromParent];
+            }];
         }
         
         if ([node.name isEqualToString:@"Restart"]) {
@@ -283,6 +300,12 @@ ShareWeixin *shareWeixin;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"shareShow"object:@"shareHidden"];
             [self reStart];
         }
+        
+        if ([node.name isEqualToString:@"love"]) {
+            UIAlertView *alt=[[UIAlertView alloc]initWithTitle:nil message:@"Please help to rate if you like ~ Thank you ~" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to rate", nil];
+            [alt show];
+        }
+        
         NSLog(@"isstart=%dmovestop=%dtouchlocation=%f",isStart,moveStop,[touch locationInNode:self].y);
         if (isStart==1&moveStop==0) {
             if ([touch locationInNode:self].y<120) {
@@ -298,12 +321,11 @@ ShareWeixin *shareWeixin;
                     sprite1.physicsBody.collisionBitMask=fishCategory|redFishCategory|redFishCategory2|redFishCategory3;
                     sprite1.name=@"Spaceship";
                     sprite1.physicsBody.affectedByGravity=NO;
-                    sprite1.physicsBody.density=100;
                     canShoot=0;
                     [sprite1 runAction:[SKAction repeatActionForever:[self myAnimation:16]]];
                     
                     SKEmitterNode *myEmitterNode = [NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle2" ofType:@"sks"]];
-                    myEmitterNode.position = CGPointMake(0, -25);
+                    myEmitterNode.position = CGPointMake(0, -20);
                     myEmitterNode.name=@"Spaceship_Fire";
                     [sprite1 addChild:myEmitterNode];
                     
@@ -397,7 +419,7 @@ ShareWeixin *shareWeixin;
             if (node.position.y>self.scene.size.height) {
                 
                 [node removeFromParent];
-                
+                [self runAction:[SKAction playSoundFileNamed:@"ao.wav" waitForCompletion:NO]];
                 if (lives==1) {
                     lives=0;
                     heartCount=0;
@@ -557,7 +579,9 @@ ShareWeixin *shareWeixin;
 
 //        isStart=0;
 //        isPased=1;
-
+        
+        [self runAction:[SKAction playSoundFileNamed:@"hit.wav" waitForCompletion:NO]];
+        
         isStart=0;
         isPased=0;
         moveStop=1;
@@ -610,6 +634,7 @@ ShareWeixin *shareWeixin;
                     heartCount++;
                     if (heartCount==3) {
                         lives=1;
+                        [self runAction:[SKAction playSoundFileNamed:@"heart.wav" waitForCompletion:NO]];
                         SKEmitterNode *myEmitterNode=[NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"MyParticle6" ofType:@"sks"]];
                         myEmitterNode.position = node.position;
                         [self addChild:myEmitterNode];
@@ -708,15 +733,28 @@ ShareWeixin *shareWeixin;
                                                     [self myAnimation:6],
                                                     shakeAction]] completion:^{
                     if (hitTimes==4) {
+                        
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:1];
-                        
                     }else if (hitTimes==8){
+                        
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:2];
-                        
                     }else if (hitTimes==12){
-                        [self addRedFish:3];
                         
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
+                        [self addRedFish:3];
                     }else{
+
                         isStart=1;
                         isPased=1;
                         moveStop=0;
@@ -730,15 +768,28 @@ ShareWeixin *shareWeixin;
                                                     [self myAnimation:8],
                                                     shakeAction]] completion:^{
                     if (hitTimes==4) {
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:1];
                         
                     }else if (hitTimes==8){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:2];
                         
                     }else if (hitTimes==12){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:3];
                         
                     }else{
+                        [audioPlayer play];
                         isStart=1;
                         isPased=1;
                         moveStop=0;
@@ -757,15 +808,28 @@ ShareWeixin *shareWeixin;
                                                     [self myAnimation:7],
                                                     shakeAction]] completion:^{
                     if (hitTimes==4) {
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:1];
                         
                     }else if (hitTimes==8){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:2];
                         
                     }else if (hitTimes==12){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:3];
                         
                     }else{
+                        [audioPlayer play];
                         isStart=1;
                         isPased=1;
                         moveStop=0;
@@ -779,15 +843,28 @@ ShareWeixin *shareWeixin;
                                                     [self myAnimation:9],
                                                     shakeAction]] completion:^{
                     if (hitTimes==4) {
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:1];
                         
                     }else if (hitTimes==8){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:2];
                         
                     }else if (hitTimes==12){
+                        [audioPlayer pause];
+                        [self runAction:[SKAction playSoundFileNamed:@"angary.wav" waitForCompletion:NO]completion:^{
+                            [audioPlayer play];
+                        }];
                         [self addRedFish:3];
                         
                     }else{
+                        [audioPlayer play];
                         isStart=1;
                         isPased=1;
                         moveStop=0;
@@ -805,7 +882,7 @@ ShareWeixin *shareWeixin;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory) {
         NSLog(@"hitRedFish");
-        
+        [self runAction:[SKAction playSoundFileNamed:@"bomb.mp3" waitForCompletion:NO]];
         moveStop=1;
         canShoot=0;
         if (moveX<0) {
@@ -874,7 +951,7 @@ ShareWeixin *shareWeixin;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory2) {
         NSLog(@"hitRedFish2");
-        
+        [self runAction:[SKAction playSoundFileNamed:@"bomb.wav" waitForCompletion:NO]];
         moveStop=1;
         canShoot=0;
         if (moveX<0) {
@@ -941,7 +1018,7 @@ ShareWeixin *shareWeixin;
     
     if (firstBody.categoryBitMask==rockCategory&secondBody.categoryBitMask==redFishCategory3) {
         NSLog(@"hitRedFish3");
-        
+        [self runAction:[SKAction playSoundFileNamed:@"bomb.wav" waitForCompletion:NO]];
         moveStop=1;
         canShoot=0;
         if (moveX<0) {
@@ -1373,6 +1450,16 @@ ShareWeixin *shareWeixin;
     lives=0;
     currentMaxScore=0;
     currentScore=0;
+    [audioPlayer stop];
+    NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"back"
+                                                          ofType:@"mp3"];
+    NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+                                                         error:nil];
+    [audioPlayer setDelegate:self];
+    [audioPlayer prepareToPlay];
+    [audioPlayer play];
+    
     [sprite removeFromParent];
     [noticeNode removeFromParent];
     [restartButton removeFromSuperview];
@@ -1429,6 +1516,12 @@ ShareWeixin *shareWeixin;
     [self enumerateChildNodesWithName:@"heart" usingBlock:^(SKNode *node, BOOL *stop){
         [node removeFromParent];
     }];
+    SKSpriteNode *loveNode=[SKSpriteNode spriteNodeWithImageNamed:@"love.png"];
+    loveNode.name=@"love";
+    loveNode.size=CGSizeMake(50, 50);
+    loveNode.position=CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+100);
+    [self addChild:loveNode];
+
 }
 
 static inline CGFloat skRandf() {
@@ -1647,6 +1740,15 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     [restartButton removeFromSuperview];
     [noticeNode removeFromParent];
     adCount++;
+    [audioPlayer stop];
+    NSString *musicPath = [[NSBundle mainBundle] pathForResource:@"back"
+                                                          ofType:@"mp3"];
+    NSURL *musicURL = [NSURL fileURLWithPath:musicPath];
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicURL
+                                                         error:nil];
+    [audioPlayer setDelegate:self];
+    [audioPlayer prepareToPlay];
+    [audioPlayer play];
     if (adCount==5) {
         adCount=0;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"adShow"object:@"adLarge"];
@@ -1693,6 +1795,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
                                                                                fadeIn]]]];
     if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"BestScore"]integerValue]<currentScore) {
         NSLog(@"newrecord");
+        [audioPlayer stop];
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",currentScore] forKey:@"BestScore"];
         
         SKLabelNode *newRecordLabel=[SKLabelNode labelNodeWithFontNamed:@"Noteworthy-Bold"];
@@ -1720,6 +1823,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 
     double version = [[UIDevice currentDevice].systemVersion doubleValue];
     if (buttonIndex==1) {
+        NSLog(@"rate");
         if (version<7) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=923811726"]];
         }

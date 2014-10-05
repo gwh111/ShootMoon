@@ -31,10 +31,10 @@
         WXMediaMessage *message = [WXMediaMessage message];
         message.title = [[NSUserDefaults standardUserDefaults] objectForKey:@"Weixin"];
         message.description = @"";
-        [message setThumbImage:[UIImage imageNamed:@"facebook.png"]];
+        [message setThumbImage:[UIImage imageNamed:@"120.png"]];
         
         WXWebpageObject *ext = [WXWebpageObject object];
-        ext.webpageUrl = @"http://itunes.apple.com/cn/app/wei-bo/id350962117?mt=8";
+        ext.webpageUrl = @"https://itunes.apple.com/us/app/shoot-fish/id923811726?l=zh&ls=1&mt=8";
         
         message.mediaObject = ext;
         
